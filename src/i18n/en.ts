@@ -94,7 +94,19 @@ export const en = {
     exportCSV: "Export as CSV",
     copySecretLink: "Copy Secret Link",
     linkCopied: "Added to clipboard!",
-    for: "for"
+    for: "for",
+    whatsappMessage: "Hi {{name}}! Here's your Secret Santa link 🎁\n{{link}}",
+    sendWhatsApp: "Send via WhatsApp",
+    copyAll: "Copy All Messages",
+    copyAllCopied: "All messages copied!",
+    printSlips: "Print Slips",
+    showQr: "QR Code",
+    qrModalTitle: "QR Code for {{name}}",
+    close: "Close",
+    markSent: "Mark as sent",
+    sentLabel: "Sent",
+    printSlipInstructions: "Scan this QR code or visit the link to see your Secret Santa match",
+    printSlipFallback: "Can't scan? Visit:"
   },
   settings: {
     title: "Settings",

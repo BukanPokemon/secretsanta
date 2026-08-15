@@ -94,7 +94,19 @@ export const id = {
     exportCSV: "Ekspor CSV",
     copySecretLink: "Salin link",
     linkCopied: "Berhasil disalin ke clipboard!",
-    for: "untuk"
+    for: "untuk",
+    whatsappMessage: "Halo {{name}}! Ini link Tukar Kado kamu 🎁\n{{link}}",
+    sendWhatsApp: "Kirim via WhatsApp",
+    copyAll: "Salin Semua Pesan",
+    copyAllCopied: "Semua pesan berhasil disalin!",
+    printSlips: "Cetak Slip",
+    showQr: "Kode QR",
+    qrModalTitle: "Kode QR untuk {{name}}",
+    close: "Tutup",
+    markSent: "Tandai sudah dikirim",
+    sentLabel: "Terkirim",
+    printSlipInstructions: "Pindai kode QR ini atau kunjungi link untuk melihat pasangan tukar kadomu",
+    printSlipFallback: "Tidak bisa memindai? Kunjungi:"
   },
   settings: {
     title: "Pengaturan",

@@ -29,7 +29,6 @@ const router = createBrowserRouter([{
   path: "/pairing.html",
   element: <Redirect to="/pairing" />
 }], {
-  // @ts-ignore
   basename: import.meta.env.BASE_URL,
 });
 

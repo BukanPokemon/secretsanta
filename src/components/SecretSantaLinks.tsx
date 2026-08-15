@@ -5,12 +5,13 @@ import { CopyButton } from "./CopyButton";
 import { QrCodeModal } from "./QrCodeModal";
 import { generateAssignmentLink, generateCSV } from "../utils/links";
 import { buildWhatsAppLink } from "../utils/phone";
-import { Participant } from "../types";
+import { Participant, EventMetadata } from "../types";
 import { GeneratedPairs, generateGenerationHash } from "../utils/generatePairs";
 
 interface SecretSantaLinksProps {
   assignments: GeneratedPairs;
   instructions?: string;
+  eventMetadata?: EventMetadata;
   participants: Record<string, Participant>;
   onGeneratePairs: () => void;
 }
@@ -29,6 +30,7 @@ function loadSentTracking(): Record<string, boolean> {
 export function SecretSantaLinks({
   assignments,
   instructions,
+  eventMetadata,
   participants,
   onGeneratePairs
 }: SecretSantaLinksProps) {
@@ -67,7 +69,7 @@ export function SecretSantaLinks({
     (async () => {
       const linkEntries = await Promise.all(
         adjustedPairings.map(async ({ giverId, giverName, receiverData }) => {
-          const link = await generateAssignmentLink(assignments.encryptionKey, giverName, receiverData, instructions);
+          const link = await generateAssignmentLink(assignments.encryptionKey, giverName, receiverData, instructions, eventMetadata);
           return [giverId, link] as const;
         })
       );
@@ -88,7 +90,7 @@ export function SecretSantaLinks({
 
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assignments.encryptionKey, assignments.hash, instructions, participants]);
+  }, [assignments.encryptionKey, assignments.hash, instructions, eventMetadata, participants]);
 
   const toggleSent = (giverId: string) => {
     setSentTracking(prev => {
@@ -190,7 +192,7 @@ export function SecretSantaLinks({
                 <span className="font-medium flex-1 min-w-[100px]">{giverName}</span>
 
                 <CopyButton
-                  textToCopy={() => generateAssignmentLink(assignments.encryptionKey, giverName, receiverData, instructions)}
+                  textToCopy={() => generateAssignmentLink(assignments.encryptionKey, giverName, receiverData, instructions, eventMetadata)}
                   className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center justify-center gap-2 text-sm"
                 >
                   {t("links.copySecretLink")}

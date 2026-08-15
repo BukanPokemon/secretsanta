@@ -181,6 +181,7 @@ export function Home() {
                   <SecretSantaLinks
                     assignments={assignments}
                     instructions={instructions}
+                    eventMetadata={eventMetadata}
                     participants={participants}
                     onGeneratePairs={handleGeneratePairs}
                   />

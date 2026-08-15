@@ -37,12 +37,17 @@ export const id = {
   },
   pairing: {
     title: "Tugas Secret Santa Anda",
+    explainer: "Link ini hanya untuk kamu. Tidak ada orang lain yang bisa melihat siapa yang harus kamu beri hadiah, dan tidak ada data tentang kamu yang dikumpulkan untuk menampilkan ini — semuanya terjadi langsung di browser kamu.",
+    greeting: "Hai, <name/>!",
+    tapToOpen: "Ketuk untuk membuka hadiahmu",
     assignment: "Selamat, <name/>! Anda telah dipilih untuk memberi hadiah kepada:",
-    error: "Gagal mendekripsi pesan. Link mungkin tidak valid.",
+    error: "Gagal memuat link ini. Link mungkin rusak atau terpotong saat dibagikan — coba minta pengatur acara untuk mengirim ulang link kamu.",
     startYourOwn: "Mulai Secret Santa sendiri!",
     address: "Alamat",
     phone: "Telepon",
     notes: "Catatan",
+    wishlistLink: "Lihat wishlist",
+    eventInfoTitle: "Info Acara",
     rulesReminder: "{{instructions}}"
   },
   participants: {

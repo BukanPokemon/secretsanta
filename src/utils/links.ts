@@ -2,12 +2,17 @@
 import { compressToUint8Array, decompressFromUint8Array } from "lz-string";
 import { encryptWithKey, decryptWithKey } from "./crypto";
 import { bytesToBase64Url, base64UrlToBytes } from "./base64url";
-import { ReceiverData } from "../types";
+import { ReceiverData, EventMetadata } from "../types";
 
 export interface AssignmentPayload {
   from: string;
   to: ReceiverData;
   info?: string;
+  event?: EventMetadata;
+}
+
+function isEventMetadataEmpty(eventMetadata: EventMetadata): boolean {
+  return Object.values(eventMetadata).every(value => value === undefined || value === "");
 }
 
 /**
@@ -40,13 +45,17 @@ export async function generateAssignmentLink(
   eventKey: string,
   giver: string,
   receiver: ReceiverData,
-  instructions?: string
+  instructions?: string,
+  eventMetadata?: EventMetadata
 ) {
   const baseUrl = `${window.location.origin}${window.location.pathname.replace(/\/[^/]*$/, '')}`;
 
   const payload: AssignmentPayload = { from: giver, to: receiver };
   if (instructions?.trim()) {
     payload.info = instructions.trim();
+  }
+  if (eventMetadata && !isEventMetadataEmpty(eventMetadata)) {
+    payload.event = eventMetadata;
   }
 
   const fragment = await encodeAssignmentFragment(eventKey, payload);

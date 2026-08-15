@@ -37,12 +37,17 @@ export const en = {
   },
   pairing: {
     title: "Your Secret Santa Assignment",
+    explainer: "This link is just for you. No one else can see who you're giving a gift to, and nothing about you was collected to show you this — everything happens right here in your browser.",
+    greeting: "Hi, <name/>!",
+    tapToOpen: "Tap to open your gift",
     assignment: "Welcome, <name/>! You have been picked to get a gift for:",
-    error: "Failed to decrypt the message. The link might be invalid.",
+    error: "Couldn't load this link. It might be broken or got cut off when it was shared — ask your organizer to resend it.",
     startYourOwn: "Start a Secret Santa yourself!",
     address: "Address",
     phone: "Phone",
     notes: "Notes",
+    wishlistLink: "View wishlist",
+    eventInfoTitle: "Event Info",
     rulesReminder: "{{instructions}}" // custom instructions
   },
   participants: {

@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DownloadSimple, UploadSimple } from '@phosphor-icons/react';
 import { EventMetadata } from '../types';
+import { formatBudget } from '../utils/currency';
 
 interface SettingsProps {
   instructions: string;
@@ -10,14 +11,6 @@ interface SettingsProps {
   onChangeEventMetadata: (metadata: EventMetadata) => void;
   onExportEvent: () => void;
   onImportEvent: (file: File) => void;
-}
-
-function formatBudget(amount: number, language: string): string {
-  return new Intl.NumberFormat(language === 'id' ? 'id-ID' : 'en-US', {
-    style: 'currency',
-    currency: language === 'id' ? 'IDR' : 'USD',
-    maximumFractionDigits: 0,
-  }).format(amount);
 }
 
 export function Settings({

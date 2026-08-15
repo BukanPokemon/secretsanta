@@ -54,6 +54,26 @@ describe('assignment fragment round-trip', () => {
     expect(decoded).toEqual(payload);
   });
 
+  it('survives event metadata (name, dates, budget) in the payload', async () => {
+    const key = generateEventKey();
+    const payload: AssignmentPayload = {
+      from: 'Budi',
+      to: { name: 'Ani' },
+      event: {
+        eventName: 'Tukar Kado Kantor',
+        eventDate: '2026-12-20',
+        exchangeDeadline: '2026-12-24',
+        budgetMin: 50000,
+        budgetMax: 150000,
+      },
+    };
+
+    const fragment = await encodeAssignmentFragment(key, payload);
+    const decoded = await decryptAssignmentFragment(fragment);
+
+    expect(decoded).toEqual(payload);
+  });
+
   it('produces a different key and ciphertext for every event, even for the same payload', async () => {
     const payload: AssignmentPayload = { from: 'Budi', to: { name: 'Ani' } };
 

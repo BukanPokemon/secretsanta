@@ -27,6 +27,8 @@ export function RulesModal({
   const [localAddress, setLocalAddress] = useState<string>(participant.address || '');
   const [localPhone, setLocalPhone] = useState<string>(participant.phone || '');
   const [localNotes, setLocalNotes] = useState<string>(participant.notes || '');
+  const [localWishlistUrl, setLocalWishlistUrl] = useState<string>(participant.wishlistUrl || '');
+  const [localGroupId, setLocalGroupId] = useState<string>(participant.groupId || '');
 
   // Escape key closes modal
   useEffect(() => {
@@ -54,9 +56,17 @@ export function RulesModal({
       draft[participantId].address = localAddress || undefined;
       draft[participantId].phone = localPhone || undefined;
       draft[participantId].notes = localNotes || undefined;
+      draft[participantId].wishlistUrl = localWishlistUrl || undefined;
+      draft[participantId].groupId = localGroupId || undefined;
     }));
     onClose();
   };
+
+  const existingGroups = Array.from(new Set(
+    Object.values(participants)
+      .map(p => p.groupId)
+      .filter((groupId): groupId is string => !!groupId)
+  ));
 
   const hasMustRule = localRules.some(r => r.type === 'must');
   const hasMustNotRule = localRules.some(r => r.type === 'mustNot');
@@ -64,8 +74,8 @@ export function RulesModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 max-w-xl w-full">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg p-6 max-w-xl w-full max-h-full overflow-y-auto">
         <h2 className="text-xl font-bold mb-4">
           {t('rules.title', { name: participant.name })}
         </h2>
@@ -116,6 +126,34 @@ export function RulesModal({
               placeholder={t('rules.notesPlaceholder', 'Additional notes (optional)')}
               className="w-full p-2 border rounded"
             />
+          </div>
+
+          {/* Wishlist URL */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('rules.wishlistLabel')}</label>
+            <input
+              type="url"
+              value={localWishlistUrl}
+              onChange={e => setLocalWishlistUrl(e.target.value)}
+              placeholder={t('rules.wishlistPlaceholder')}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+
+          {/* Group */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('rules.groupLabel')}</label>
+            <input
+              type="text"
+              value={localGroupId}
+              onChange={e => setLocalGroupId(e.target.value)}
+              placeholder={t('rules.groupPlaceholder')}
+              className="w-full p-2 border rounded"
+              list={`existing-groups-${participantId}`}
+            />
+            <datalist id={`existing-groups-${participantId}`}>
+              {existingGroups.map(groupId => <option key={groupId} value={groupId} />)}
+            </datalist>
           </div>
         </div>
 

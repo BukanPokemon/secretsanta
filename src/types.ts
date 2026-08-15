@@ -15,6 +15,11 @@ export interface Participant {
   address?: string;
   phone?: string;
   notes?: string;
+  wishlistUrl?: string;
+
+  // Members sharing the same groupId (e.g. a couple or a family) never
+  // draw each other — see buildCandidateReceivers in generatePairs.ts.
+  groupId?: string;
 }
 
 export type Participants = Record<string, Participant>;
@@ -26,6 +31,16 @@ export interface ReceiverData {
   address?: string;
   phone?: string;
   notes?: string;
+  wishlistUrl?: string;
+}
+
+// Event-level metadata, separate from the per-participant data above.
+export interface EventMetadata {
+  eventName?: string;
+  eventDate?: string;        // yyyy-mm-dd, from <input type="date">
+  exchangeDeadline?: string; // yyyy-mm-dd
+  budgetMin?: number;
+  budgetMax?: number;
 }
 
 // Optional: pair types

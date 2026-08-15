@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { RulesModal } from '../components/RulesModal';
-import { GeneratedPairs, generatePairs } from '../utils/generatePairs';
+import { GeneratedPairs, generatePairs, diagnoseInfeasibility } from '../utils/generatePairs';
 import { Accordion } from '../components/Accordion';
 import { AccordionContainer } from '../components/AccordionContainer';
 import { ParticipantsList } from '../components/ParticipantsList';
 import { ParticipantsTextView } from '../components/ParticipantsTextView';
 import { SecretSantaLinks } from '../components/SecretSantaLinks';
-import { Participant } from '../types';
+import { Participant, EventMetadata } from '../types';
 import { PostCard } from '../components/PostCard';
 import { useTranslation } from 'react-i18next';
 import { PageTransition } from '../components/PageTransition';
@@ -14,6 +14,8 @@ import { Code, Rows } from '@phosphor-icons/react';
 import { Settings } from '../components/Settings';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { Layout } from '../components/Layout';
+import { downloadEventBackup, parseEventBackup } from '../utils/eventBackup';
+import { buildExampleParticipants } from '../utils/exampleParticipants';
 
 export function Home() {
   const { t } = useTranslation();
@@ -30,6 +32,11 @@ export function Home() {
     (v) => v
   );
   const [instructions, setInstructions] = useLocalStorage<string>('secretSantaInstructions', '');
+  const [eventMetadata, setEventMetadata] = useLocalStorage<EventMetadata>(
+    'secretSantaEventMetadata',
+    {},
+    (v) => v
+  );
 
   const [selectedParticipantId, setSelectedParticipantId] = useState<string | null>(null);
   const [isRulesModalOpen, setIsRulesModalOpen] = useState(false);
@@ -38,15 +45,53 @@ export function Home() {
   const handleGeneratePairs = () => {
     const assignments = generatePairs(participants);
     if (!assignments) {
-      alert(
-        Object.keys(participants).length < 2
-          ? t('errors.needMoreParticipants')
-          : t('errors.invalidPairs')
-      );
+      const reason = diagnoseInfeasibility(participants);
+      alert(t(reason.key, 'params' in reason ? reason.params : undefined));
       return;
     }
     setAssignments(assignments);
     setOpenSection('links');
+  };
+
+  const handleTryExample = () => {
+    const exampleParticipants = buildExampleParticipants();
+    setParticipants(exampleParticipants);
+
+    // Compute pairings from the freshly-built example directly, rather than
+    // relying on `participants` state (which won't reflect the setParticipants
+    // call above until the next render) — this is what makes "click it and
+    // see generated pairings" a single action instead of two.
+    const generated = generatePairs(exampleParticipants);
+    if (generated) {
+      setAssignments(generated);
+      setOpenSection('links');
+    }
+  };
+
+  const handleExportEvent = () => {
+    downloadEventBackup({ version: 1, participants, assignments, instructions, eventMetadata });
+  };
+
+  const handleImportEvent = (file: File) => {
+    const hasExistingData = Object.keys(participants).length > 0;
+    if (hasExistingData && !confirm(t('settings.importConfirm'))) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const backup = parseEventBackup(String(reader.result));
+        setParticipants(backup.participants);
+        setAssignments(backup.assignments);
+        setInstructions(backup.instructions);
+        setEventMetadata(backup.eventMetadata);
+      } catch (err) {
+        console.error('Failed to import event backup:', err);
+        alert(t('settings.importError'));
+      }
+    };
+    reader.readAsText(file);
   };
 
   const toggleViewButton = (
@@ -107,6 +152,7 @@ export function Home() {
                       setIsRulesModalOpen(true);
                     }}
                     onGeneratePairs={handleGeneratePairs}
+                    onTryExample={handleTryExample}
                   />
                 )}
               </Accordion>
@@ -116,7 +162,14 @@ export function Home() {
                 isOpen={openSection === 'settings'}
                 onToggle={() => setOpenSection('settings')}
               >
-                <Settings instructions={instructions} onChangeInstructions={setInstructions} />
+                <Settings
+                  instructions={instructions}
+                  onChangeInstructions={setInstructions}
+                  eventMetadata={eventMetadata}
+                  onChangeEventMetadata={setEventMetadata}
+                  onExportEvent={handleExportEvent}
+                  onImportEvent={handleImportEvent}
+                />
               </Accordion>
 
               {assignments && (
@@ -135,13 +188,16 @@ export function Home() {
               )}
             </AccordionContainer>
           </div>
-
-          {/* Bottom center credits */}
-          <div
-            className="fixed bottom-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm pointer-events-auto"
-            dangerouslySetInnerHTML={{ __html: t('home.vanity') }}
-          />
         </Layout>
+
+        {/* Bottom center credits — static, not fixed: a fixed footer on a
+            tall mobile page ends up floating over whatever content is
+            scrolled underneath it and intercepting taps meant for that
+            content. */}
+        <div
+          className="text-center text-gray-400 text-sm py-4"
+          dangerouslySetInnerHTML={{ __html: t('home.vanity') }}
+        />
       </PageTransition>
 
       {isRulesModalOpen && selectedParticipantId && (

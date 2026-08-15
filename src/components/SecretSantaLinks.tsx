@@ -1,5 +1,5 @@
 import React from "react";
-import { DownloadSimple } from "@phosphor-icons/react";
+import { DownloadSimple, Warning } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { CopyButton } from "./CopyButton";
 import { generateAssignmentLink, generateCSV } from "../utils/links";
@@ -46,7 +46,7 @@ export function SecretSantaLinks({
     // Resolve all links
     const rows = await Promise.all(
       adjustedPairings.map(async ({ giverName, receiverData }) => {
-        const link = await generateAssignmentLink(giverName, receiverData, instructions);
+        const link = await generateAssignmentLink(assignments.encryptionKey, giverName, receiverData, instructions);
         return [giverName, link] as [string, string]; // tuple
       })
     );
@@ -80,6 +80,11 @@ export function SecretSantaLinks({
         </div>
       )}
 
+      <div className="mb-4 p-3 bg-blue-50 border border-blue-200 text-blue-800 rounded text-sm flex items-start gap-2">
+        <Warning size={20} weight="bold" className="flex-shrink-0 mt-0.5" />
+        <p>{t("links.selfSpoilWarning")}</p>
+      </div>
+
       <div className="p-4 bg-gray-50 rounded-lg">
         <div className="flex space-x-4 items-center mb-4">
           <p className="text-gray-600 text-balance">{t("links.shareInstructions")}</p>
@@ -98,7 +103,7 @@ export function SecretSantaLinks({
               <span className="font-medium self-center">{giverName}:</span>
 
               <CopyButton
-                textToCopy={() => generateAssignmentLink(giverName, receiverData, instructions)}
+                textToCopy={() => generateAssignmentLink(assignments.encryptionKey, giverName, receiverData, instructions)}
                 className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center justify-center gap-2"
               >
                 {t("links.copySecretLink")}

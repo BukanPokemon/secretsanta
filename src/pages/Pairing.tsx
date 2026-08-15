@@ -1,7 +1,8 @@
 import "@fontsource/dancing-script/700.css";
 import { useEffect, useState } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, useLocation, Link } from 'react-router-dom';
 import { decryptText } from '../utils/crypto';
+import { decryptAssignmentFragment, AssignmentPayload } from '../utils/links';
 import { PostCard } from '../components/PostCard';
 import { Trans, useTranslation } from 'react-i18next';
 import { MenuItem } from '../components/SideMenu';
@@ -11,26 +12,37 @@ import { motion } from 'framer-motion';
 import { Layout } from "../components/Layout";
 import { ReceiverData } from "../types";
 
-async function loadPairing(searchParams: URLSearchParams): Promise<[string, ReceiverData]> {
+async function loadPairing(hash: string, searchParams: URLSearchParams): Promise<AssignmentPayload> {
+  const fragment = hash.startsWith('#') ? hash.slice(1) : hash;
+  if (fragment) {
+    return decryptAssignmentFragment(fragment);
+  }
+
+  // Legacy links (from before assignment data moved into the URL fragment):
+  // `from`/`to`/`info` sit in the query string and `to` is encrypted with
+  // the old hardcoded key. Keep decrypting these for at least one season so
+  // links already sent out don't break.
   if (searchParams.has(`to`)) {
     const from = searchParams.get('from')!;
     const to = searchParams.get('to')!;
     const decrypted = await decryptText(to);
+    const info = searchParams.get('info') ?? undefined;
 
     try {
       const data = JSON.parse(decrypted) as ReceiverData;
-      return [from, data];
+      return { from, to: data, info };
     } catch {
-      return [from, { name: decrypted, hint: undefined } as ReceiverData];
+      return { from, to: { name: decrypted, hint: undefined } as ReceiverData, info };
     }
   }
 
-  throw new Error(`Missing key or to parameter in search params`);
+  throw new Error(`Missing pairing data`);
 }
 
 export function Pairing() {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [assignment, setAssignment] = useState<[string, ReceiverData] | null>(null);
@@ -39,8 +51,9 @@ export function Pairing() {
   useEffect(() => {
     const decryptReceiver = async () => {
       try {
-        setAssignment(await loadPairing(searchParams));
-        setInstructions(searchParams.get('info'));
+        const payload = await loadPairing(location.hash, searchParams);
+        setAssignment([payload.from, payload.to]);
+        setInstructions(payload.info ?? null);
       } catch (err) {
         console.error('Decryption error:', err);
         setError(t('pairing.error'));
@@ -50,7 +63,7 @@ export function Pairing() {
     };
 
     decryptReceiver();
-  }, [searchParams, t]);
+  }, [location.hash, searchParams, t]);
 
   if (error) {
     return (

@@ -1,15 +1,111 @@
+import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { DownloadSimple, UploadSimple } from '@phosphor-icons/react';
+import { EventMetadata } from '../types';
 
 interface SettingsProps {
   instructions: string;
   onChangeInstructions: (instructions: string) => void;
+  eventMetadata: EventMetadata;
+  onChangeEventMetadata: (metadata: EventMetadata) => void;
+  onExportEvent: () => void;
+  onImportEvent: (file: File) => void;
 }
 
-export function Settings({ instructions, onChangeInstructions }: SettingsProps) {
-  const { t } = useTranslation();
+function formatBudget(amount: number, language: string): string {
+  return new Intl.NumberFormat(language === 'id' ? 'id-ID' : 'en-US', {
+    style: 'currency',
+    currency: language === 'id' ? 'IDR' : 'USD',
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
+
+export function Settings({
+  instructions,
+  onChangeInstructions,
+  eventMetadata,
+  onChangeEventMetadata,
+  onExportEvent,
+  onImportEvent,
+}: SettingsProps) {
+  const { t, i18n } = useTranslation();
+  const importInputRef = useRef<HTMLInputElement>(null);
+
+  const updateField = <K extends keyof EventMetadata>(key: K, value: EventMetadata[K]) => {
+    onChangeEventMetadata({ ...eventMetadata, [key]: value });
+  };
+
+  const handleImportChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) onImportEvent(file);
+    e.target.value = '';
+  };
 
   return (
     <div className="space-y-4">
+      <div className="p-4 bg-gray-50 rounded-lg space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('settings.eventName')}</label>
+          <input
+            type="text"
+            value={eventMetadata.eventName ?? ''}
+            onChange={e => updateField('eventName', e.target.value || undefined)}
+            placeholder={t('settings.eventNamePlaceholder')}
+            className="w-full p-2 border rounded"
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('settings.eventDate')}</label>
+            <input
+              type="date"
+              value={eventMetadata.eventDate ?? ''}
+              onChange={e => updateField('eventDate', e.target.value || undefined)}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('settings.exchangeDeadline')}</label>
+            <input
+              type="date"
+              value={eventMetadata.exchangeDeadline ?? ''}
+              onChange={e => updateField('exchangeDeadline', e.target.value || undefined)}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('settings.budgetRange')}</label>
+          <div className="grid grid-cols-2 gap-3">
+            <input
+              type="number"
+              min={0}
+              value={eventMetadata.budgetMin ?? ''}
+              onChange={e => updateField('budgetMin', e.target.value === '' ? undefined : Number(e.target.value))}
+              placeholder={t('settings.budgetMinPlaceholder')}
+              className="w-full p-2 border rounded"
+            />
+            <input
+              type="number"
+              min={0}
+              value={eventMetadata.budgetMax ?? ''}
+              onChange={e => updateField('budgetMax', e.target.value === '' ? undefined : Number(e.target.value))}
+              placeholder={t('settings.budgetMaxPlaceholder')}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+          {(eventMetadata.budgetMin != null || eventMetadata.budgetMax != null) && (
+            <p className="mt-1 text-xs text-gray-500">
+              {eventMetadata.budgetMin != null && formatBudget(eventMetadata.budgetMin, i18n.language)}
+              {eventMetadata.budgetMin != null && eventMetadata.budgetMax != null && ' – '}
+              {eventMetadata.budgetMax != null && formatBudget(eventMetadata.budgetMax, i18n.language)}
+            </p>
+          )}
+        </div>
+      </div>
+
       <div className="p-4 bg-gray-50 rounded-lg">
         <div className="mb-2">
           <h4 className="block text-sm font-medium text-gray-700">
@@ -26,6 +122,42 @@ export function Settings({ instructions, onChangeInstructions }: SettingsProps) 
           placeholder={t('settings.instructionsPlaceholder')}
         />
       </div>
+
+      <div className="p-4 bg-gray-50 rounded-lg">
+        <div className="mb-2">
+          <h4 className="block text-sm font-medium text-gray-700">
+            {t('settings.backupTitle')}
+          </h4>
+          <p className="mt-1 text-xs text-gray-500">
+            {t('settings.backupHelp')}
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={onExportEvent}
+            className="flex-1 p-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 flex items-center justify-center gap-2"
+          >
+            <DownloadSimple size={20} weight="bold" />
+            {t('settings.exportEvent')}
+          </button>
+          <button
+            type="button"
+            onClick={() => importInputRef.current?.click()}
+            className="flex-1 p-2 bg-gray-600 text-white rounded hover:bg-gray-700 flex items-center justify-center gap-2"
+          >
+            <UploadSimple size={20} weight="bold" />
+            {t('settings.importEvent')}
+          </button>
+          <input
+            ref={importInputRef}
+            type="file"
+            accept="application/json"
+            className="hidden"
+            onChange={handleImportChange}
+          />
+        </div>
+      </div>
     </div>
   );
-} 
+}

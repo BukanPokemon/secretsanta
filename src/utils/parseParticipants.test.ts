@@ -69,6 +69,40 @@ describe('parseParticipantsText', () => {
     });
   });
 
+  it('should parse participants with a group tag', () => {
+    const input = `
+      Alice #Family
+      Bob #Family
+      Charlie
+    `;
+
+    const result = parseParticipantsText(input);
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+
+    const participants = Object.values(result.participants);
+    expect(participants.find(p => p.name === 'Alice')?.groupId).toBe('Family');
+    expect(participants.find(p => p.name === 'Bob')?.groupId).toBe('Family');
+    expect(participants.find(p => p.name === 'Charlie')?.groupId).toBeUndefined();
+  });
+
+  it('should parse a group tag alongside rules and a hint, in any order', () => {
+    const input = `
+      Alice (likes cats) =Bob !Charlie #Family
+      Bob
+      Charlie
+    `;
+
+    const result = parseParticipantsText(input);
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+
+    const alice = Object.values(result.participants).find(p => p.name === 'Alice');
+    expect(alice?.hint).toBe('likes cats');
+    expect(alice?.groupId).toBe('Family');
+    expect(alice?.rules).toHaveLength(2);
+  });
+
   it('should handle empty lines', () => {
     const input = `
       Alice
@@ -169,4 +203,19 @@ describe('formatParticipantText', () => {
       'Charlie\n'
     );
   });
-}); 
+
+  it('should include a group tag and round-trip it through the parser', () => {
+    const participants: Record<string, Participant> = {
+      'id1': { id: 'id1', name: 'Alice', rules: [], groupId: 'Family' },
+      'id2': { id: 'id2', name: 'Bob', rules: [] },
+    };
+
+    const text = formatParticipantText(participants);
+    expect(text).toBe('Alice #Family\nBob\n');
+
+    const reparsed = parseParticipantsText(text);
+    expect(reparsed.ok).toBe(true);
+    if (!reparsed.ok) return;
+    expect(Object.values(reparsed.participants).find(p => p.name === 'Alice')?.groupId).toBe('Family');
+  });
+});

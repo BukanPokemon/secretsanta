@@ -1,16 +1,19 @@
 import { useState } from 'react'
-import { ArrowsClockwise, UploadSimple } from "@phosphor-icons/react"
+import { ArrowsClockwise, FileCsv, FileXls, Sparkle, UploadSimple } from "@phosphor-icons/react"
 import { Participant } from '../types'
 import { useTranslation } from 'react-i18next'
 import { ParticipantRow } from './ParticipantRow'
+import { ImportWizard } from './ImportWizard'
 import { produce } from 'immer'
-import Papa from 'papaparse'
+import csvTemplateUrl from '../../static/tukar-kado-template.csv?url'
+import xlsxTemplateUrl from '../../static/tukar-kado-template.xlsx?url'
 
 interface ParticipantsListProps {
   participants: Record<string, Participant>
   onChangeParticipants: (newParticipants: Record<string, Participant>) => void
   onOpenRules: (participantName: string) => void
   onGeneratePairs: () => void
+  onTryExample: () => void
 }
 
 export function ParticipantsList({
@@ -18,9 +21,11 @@ export function ParticipantsList({
   onChangeParticipants,
   onOpenRules,
   onGeneratePairs,
+  onTryExample,
 }: ParticipantsListProps) {
   const { t } = useTranslation()
   const [nextParticipantId, setNextParticipantId] = useState(() => crypto.randomUUID())
+  const [importFile, setImportFile] = useState<File | null>(null)
 
   const updateParticipant = (id: string, name: string) => {
     if (id === nextParticipantId) {
@@ -45,38 +50,10 @@ export function ParticipantsList({
     }))
   }
 
-  // ✅ CSV UPLOAD HANDLER
-  const handleCSVUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
-    if (!file) return
-
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: (results) => {
-        const rows: any[] = results.data as any[]
-
-        onChangeParticipants(produce({}, draft => {
-          rows.forEach((row) => {
-            if (!row.Name) return
-
-            const id = crypto.randomUUID()
-
-            draft[id] = {
-              id,
-              name: row.Name,
-              rules: [],
-
-              // ✅ Additional CSV fields
-              address: row.Address?.trim() ?? "",
-              phone: row.Phone?.trim() ?? "",
-              hint: (row["Gift Hint"] ?? row.GiftHint ?? "").trim(),
-              notes: row.Notes?.trim() ?? ""
-            }
-          })
-        }))
-      }
-    })
+    if (file) setImportFile(file)
+    event.target.value = ''
   }
 
   const participantsList = [
@@ -88,22 +65,64 @@ export function ParticipantsList({
     }
   ]
 
+  const isEmpty = Object.keys(participants).length === 0
+
   return (
     <div className="space-y-4">
 
-      {/* ✅ CSV Upload Button */}
-      <div className="flex items-center justify-between gap-2">
+      {isEmpty && (
+        <button
+          type="button"
+          onClick={onTryExample}
+          className="w-full p-3 bg-yellow-50 text-yellow-800 font-medium rounded-lg hover:bg-yellow-100 flex items-center justify-center gap-2 border-2 border-dashed border-yellow-400"
+        >
+          <Sparkle size={20} weight="bold" />
+          {t('participants.tryExample')}
+        </button>
+      )}
+
+      {/* Spreadsheet import */}
+      <div className="flex flex-wrap items-center gap-2">
         <label className="flex items-center gap-2 px-3 py-2 bg-indigo-600 text-white rounded cursor-pointer hover:bg-indigo-700">
           <UploadSimple size={20} />
-          Upload CSV
+          {t('participants.uploadSpreadsheet')}
           <input
             type="file"
-            accept=".csv"
+            accept=".csv,.xlsx"
             className="hidden"
-            onChange={handleCSVUpload}
+            onChange={handleFileSelected}
           />
         </label>
+
+        <a
+          href={csvTemplateUrl}
+          download="tukar-kado-template.csv"
+          className="flex items-center gap-1.5 px-2 py-2 text-xs text-gray-600 hover:text-gray-900 hover:underline"
+        >
+          <FileCsv size={16} />
+          {t('participants.downloadCsvTemplate')}
+        </a>
+        <a
+          href={xlsxTemplateUrl}
+          download="tukar-kado-template.xlsx"
+          className="flex items-center gap-1.5 px-2 py-2 text-xs text-gray-600 hover:text-gray-900 hover:underline"
+        >
+          <FileXls size={16} />
+          {t('participants.downloadXlsxTemplate')}
+        </a>
       </div>
+
+      {importFile && (
+        <ImportWizard
+          file={importFile}
+          existingParticipants={participants}
+          onCancel={() => setImportFile(null)}
+          onImport={(newParticipants) => {
+            onChangeParticipants(newParticipants)
+            setImportFile(null)
+          }}
+        />
+      )}
 
       <p className="mt-1 text-xs text-gray-500">
         {t('participants.generationWarning')}

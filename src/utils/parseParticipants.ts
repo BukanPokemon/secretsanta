@@ -25,15 +25,25 @@ export function formatParticipantText(participants: Record<string, Participant>)
       .filter(r => r.type === 'mustNot')
       .map(r => `!${participants[r.targetParticipantId]?.name ?? ''}`);
 
+    const groupPart = participant.groupId
+      ? [`#${participant.groupId}`]
+      : [];
+
     const hintPart = participant.hint
       ? [`(${participant.hint})`]
       : [];
 
-    return `${[participant.name, ...hintPart, ...mustRules, ...mustNotRules].join(' ')}\n`;
+    // wishlistUrl isn't representable here: URLs routinely contain '=' and
+    // '!', which this format uses as rule delimiters. It stays editable
+    // only through the form view / CSV import.
+    return `${[participant.name, ...hintPart, ...mustRules, ...mustNotRules, ...groupPart].join(' ')}\n`;
   }).join('');
 }
 
-const PAREN = /[!=(]/;
+// Characters that end the name/hint portion of a line and start the
+// rules/group section. '#' must stay out of names for the same reason '!'
+// and '=' already are.
+const EXTRAS_START = /[!=#(]/;
 
 export function parseParticipantsText(input: string, existingParticipants?: Record<string, Participant>): ParseResult {
   const lines = input.split('\n').map(line => line.trim());
@@ -51,7 +61,7 @@ export function parseParticipantsText(input: string, existingParticipants?: Reco
     const line = lines[i].trim();
     if (line === '') continue;
 
-    let splitIndex = PAREN.exec(line)?.index;
+    let splitIndex = EXTRAS_START.exec(line)?.index;
 
     const name = typeof splitIndex === 'number'
       ? line.slice(0, splitIndex).trim()
@@ -75,7 +85,7 @@ export function parseParticipantsText(input: string, existingParticipants?: Reco
     const remainingPart = line.slice(splitIndex);
     const parts = remainingPart
       .trim()
-      .split(/([!=])/)
+      .split(/([!=#])/)
       .map(part => part.trim());
 
     if (!name) {
@@ -106,43 +116,51 @@ export function parseParticipantsText(input: string, existingParticipants?: Reco
     result[id] = { id, name, hint, rules: [] };
   }
 
-  // Second pass: process rules
+  // Second pass: process rules and group tags
   for (const {line, name, extra} of parsedLines) {
     const id = nameToId[name];
     const rules: Rule[] = [];
+    let groupId: string | undefined;
 
     for (let j = 0; j + 1 < extra.length; j += 2) {
-      const targetName = extra[j + 1];
-      if (!targetName) {
+      const sigil = extra[j];
+      const value = extra[j + 1];
+      if (!value) {
         continue;
       }
 
-      const targetId = nameToId[targetName];
+      if (sigil === '#') {
+        groupId = value;
+        continue;
+      }
+
+      const targetId = nameToId[value];
       if (!targetId) {
-        return { 
-          ok: false, 
+        return {
+          ok: false,
           line,
           key: 'errors.unknownParticipant',
-          values: { name: targetName } 
+          values: { name: value }
         };
       }
 
       rules.push({
-        type: extra[j] === '=' ? 'must' : 'mustNot',
+        type: sigil === '=' ? 'must' : 'mustNot',
         targetParticipantId: targetId
       });
     }
 
     const validationError = checkRules(rules);
     if (validationError) {
-      return { 
-        ok: false, 
+      return {
+        ok: false,
         line,
-        key: validationError 
+        key: validationError
       };
     }
 
     result[id].rules = rules;
+    result[id].groupId = groupId;
   }
 
   return { ok: true, participants: result };

@@ -14,12 +14,37 @@ import { Code, Rows } from '@phosphor-icons/react';
 import { Settings } from '../components/Settings';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { Layout } from '../components/Layout';
+import { JsonLd } from '../components/JsonLd';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { downloadEventBackup, parseEventBackup } from '../utils/eventBackup';
 import { buildExampleParticipants } from '../utils/exampleParticipants';
 
 export function Home() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isTextView, setIsTextView] = useState(false);
+
+  const lang = i18n.language === 'en' ? 'en' : 'id';
+  useDocumentMeta({
+    title: t('seo.homeTitle'),
+    description: t('seo.homeDescription'),
+    path: lang === 'id' ? '/id/' : '/en/',
+    lang,
+    alternates: [
+      { lang: 'id', path: '/id/' },
+      { lang: 'en', path: '/en/' },
+    ],
+    ogImagePath: `/og/${lang}.png`,
+  });
+
+  const softwareAppJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Tukar Kado',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any (web browser)',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: t('seo.homeDescription'),
+  };
 
   const [participants, setParticipants] = useLocalStorage<Record<string, Participant>>(
     'secretSantaParticipants',
@@ -110,6 +135,7 @@ export function Home() {
   return (
     <>
       <PageTransition>
+        <JsonLd data={softwareAppJsonLd} />
         {/* Layout with empty top menu */}
         <Layout menuItems={[]}>
           {/* Main content */}

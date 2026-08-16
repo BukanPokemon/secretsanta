@@ -12,6 +12,7 @@ import { ArrowLeft } from '@phosphor-icons/react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Layout } from "../components/Layout";
 import { EventMetadata, ReceiverData } from "../types";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
 
 async function loadPairing(hash: string, searchParams: URLSearchParams): Promise<AssignmentPayload> {
   const fragment = hash.startsWith('#') ? hash.slice(1) : hash;
@@ -59,6 +60,17 @@ export function Pairing() {
   const [instructions, setInstructions] = useState<string | null>(null);
   const [eventInfo, setEventInfo] = useState<EventMetadata | null>(null);
   const [revealed, setRevealed] = useState(false);
+
+  // Every pairing link is unique to one person and meaningless to anyone
+  // else — there's nothing here worth a search engine indexing, and a
+  // stray cached snippet showing someone's name would be a privacy leak.
+  useDocumentMeta({
+    title: t('pairing.title'),
+    description: t('pairing.explainer'),
+    path: '/pairing',
+    lang: i18n.language === 'en' ? 'en' : 'id',
+    noindex: true,
+  });
 
   useEffect(() => {
     const decryptReceiver = async () => {

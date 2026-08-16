@@ -156,5 +156,63 @@ export const id = {
     errorMissingName: "Nama kosong",
     errorDuplicateName: "Nama duplikat",
     warningNumericPhone: "Nomor telepon ini tersimpan sebagai angka di spreadsheet — periksa kembali jangan sampai angka nol di depan hilang"
+  },
+  seo: {
+    homeTitle: "Tukar Kado — Generator Undian Tukar Kado Online, Gratis & Tanpa Daftar",
+    homeDescription: "Bikin undian tukar kado (kocok nama) online dalam hitungan menit. Tanpa daftar, tanpa email, tanpa akun — daftar peserta tetap rahasia, tersimpan langsung di browser kamu. Gratis dan mudah dipakai untuk kantor, keluarga, atau arisan.",
+    guideTitle: "Cara Bikin Tukar Kado Online — Panduan Lengkap | Tukar Kado",
+    guideDescription: "Panduan langkah demi langkah bikin undian tukar kado rahasia online: tambah peserta, atur aturan pasangan, kocok nama otomatis, lalu bagikan link rahasia lewat WhatsApp. Gratis, tanpa perlu daftar."
+  },
+  guide: {
+    backToHome: "Kembali ke Beranda",
+    title: "Cara Bikin Tukar Kado Online",
+    intro: "Tukar Kado adalah alat gratis untuk bikin undian tukar kado (Secret Santa) online — tanpa daftar, tanpa email, tanpa akun. Hasil undian siapa-dapat-siapa tetap rahasia: datanya dienkripsi langsung di dalam link yang kamu bagikan, dan semuanya berjalan di browser tanpa ada yang dikirim ke server mana pun. Begini cara bikinnya, cuma butuh beberapa menit.",
+    steps: [
+      {
+        title: "1. Tambahkan peserta",
+        body: "Buka halaman utama dan ketik nama setiap peserta. Tekan Enter setelah tiap nama untuk lanjut menambah yang berikutnya. Kalau sudah punya daftar di spreadsheet, pakai \"Unggah CSV atau Excel\" saja — bisa daftar nama polos atau sheet lengkap dengan alamat, nomor HP, dan petunjuk hadiah. Belum punya daftar? Klik \"Coba Contoh\" dulu untuk lihat alurnya pakai data contoh."
+      },
+      {
+        title: "2. Atur aturan pasangan (opsional)",
+        body: "Klik ikon gerigi di sebelah nama untuk menambahkan petunjuk hadiah, alamat, nomor HP, atau link wishlist, atau untuk mengatur aturan pasangan: paksa pasangan tertentu, atau hindari pasangan tertentu. Kalau ada pasangan suami-istri atau saudara dalam satu undian, kasih mereka nama \"Grup\" yang sama — otomatis tidak akan saling dapat, tanpa perlu klik satu-satu aturan pengecualian."
+      },
+      {
+        title: "3. Hasilkan pasangan",
+        body: "Klik \"Hasilkan Pasangan.\" Tukar Kado langsung mencari kombinasi pasangan yang valid dan memenuhi semua aturan yang kamu atur. Kalau aturannya bikin kombinasi valid jadi mustahil — misalnya dua orang sama-sama dipaksa memberi ke orang yang sama — kamu akan dapat penjelasan spesifik aturan mana yang bermasalah, bukan cuma pesan error umum."
+      },
+      {
+        title: "4. Bagikan link — secara rahasia",
+        body: "Setiap peserta dapat link rahasia masing-masing. Kalau sudah isi nomor HP, tinggal tap \"Kirim via WhatsApp\" untuk kirim langsung ke tiap orang. Kalau tidak, salin link-nya dan kirim lewat cara apa saja — chat, email, atau slip cetak dengan kode QR untuk dipindai. Setiap link cuma menampilkan pasangan orang itu saja; orang lain tidak bisa melihatnya, dan sebaiknya kamu juga tidak membuka link milikmu sendiri kalau tidak mau kejutannya hilang."
+      },
+      {
+        title: "5. Hari pembukaan",
+        body: "Saat peserta membuka link-nya, mereka akan lihat penjelasan singkat dulu, lalu tombol buka hadiah — nama pasangannya baru muncul setelah mereka sendiri yang memilih untuk membukanya. Kalau kamu mengisi anggaran, tanggal, atau instruksi tambahan, itu semua juga akan muncul di sana."
+      }
+    ],
+    faqTitle: "Pertanyaan yang Sering Ditanyakan",
+    faq: [
+      {
+        question: "Apakah saya perlu bikin akun atau daftar dulu?",
+        answer: "Tidak. Tidak ada pendaftaran, tidak ada login, tidak ada akun sama sekali. Tinggal buka halamannya dan langsung tambahkan peserta."
+      },
+      {
+        question: "Apakah email peserta dikumpulkan?",
+        answer: "Tidak ada email yang dikumpulkan atau dibutuhkan sama sekali. Link dibagikan langsung oleh kamu, lewat cara apa pun yang kamu mau — WhatsApp, chat, atau langsung ke orangnya."
+      },
+      {
+        question: "Daftar peserta disimpan di mana?",
+        answer: "Hanya di browser kamu sendiri, di perangkat kamu sendiri. Tidak pernah dikirim ke server — memang tidak ada servernya. Kalau data browser terhapus, gunakan fitur Ekspor Acara terlebih dahulu untuk menyimpan cadangan."
+      },
+      {
+        question: "Bisakah orang lain tahu saya kebagian memberi hadiah ke siapa?",
+        answer: "Tidak bisa. Hasil pasangan tiap peserta dienkripsi masing-masing dan hanya bisa dibaca lewat link rahasia milik orang itu sendiri. Bahkan pengatur acara pun tidak bisa tahu siapa dapat siapa hanya dengan melihat daftar link."
+      },
+      {
+        question: "Apakah benar-benar gratis?",
+        answer: "Ya, sepenuhnya gratis, tanpa batasan jumlah peserta atau jumlah acara."
+      }
+    ],
+    ctaText: "Siap bikin tukar kado sendiri?",
+    ctaButton: "Buat Tukar Kado Sekarang"
   }
 };

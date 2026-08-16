@@ -22,8 +22,9 @@ Package manager is Yarn Berry (`yarn@4.5.1`, `nodeLinker: node-modules`). Use `y
 - `yarn vitest -t "should handle circular MUST rules"` — run tests matching a name
 - `yarn typecheck` — `tsc --noEmit`; also runs as part of `yarn build`, so a type error fails the build
 - `yarn lint` — ESLint (flat config in `eslint.config.mjs`); `yarn format` — Prettier
+- `yarn prerender` — runs `scripts/prerender.mjs` against an already-built `dist/`; part of `yarn deploy` and CI, not of `yarn build` itself
 
-CI (`.github/workflows/`) runs `yarn typecheck` then `yarn vitest` then builds with `VITE_BASE_URL` set to the repo name and deploys `dist/` to GitHub Pages on pushes to `main`.
+CI (`.github/workflows/`) runs `yarn typecheck`, `yarn vitest`, builds with `VITE_BASE_URL` set to the repo name, installs Playwright's Chromium (`npx playwright install --with-deps chromium`), runs `yarn prerender`, then deploys `dist/` to GitHub Pages on pushes to `main`.
 
 ## Architecture
 
@@ -31,12 +32,18 @@ CI (`.github/workflows/`) runs `yarn typecheck` then `yarn vitest` then builds w
 
 Pre-Phase-2 links used a hardcoded key (`ENCRYPTION_KEY_BYTES`, still in `crypto.ts` as `encryptText`/`decryptText`) with `from`/`to`/`info` in the **query string** instead. `Pairing.tsx` still detects and decrypts that format for backward compatibility — `loadPairing` tries the fragment first, then falls back to `searchParams`.
 
-**Two routes, defined in `src/index.tsx`:**
-- `/` → `Home` (organizer view: manage participants, generate pairings, get links)
-- `/pairing` → `Pairing` (recipient view: decrypts and displays one assignment, fragment or legacy query string)
+**Routes, defined in `src/index.tsx`:**
+- `/` → `RootRedirect` (client-side only, not prerendered — sends to `/id/` or `/en/` based on `i18n.language`, see below)
+- `/id/`, `/en/` → `Home` wrapped in `LocalePage` (organizer view)
+- `/id/panduan/`, `/en/guide/` → `Guide` wrapped in `LocalePage` (tutorial/FAQ content)
+- `/pairing` → `Pairing` (recipient view: decrypts and displays one assignment, fragment or legacy query string; not locale-prefixed — the *viewer's* browser language applies here via the normal `i18next-browser-languagedetector` flow, independent of whatever locale the giver used to generate the link)
 - `/pairing.html` → redirects to `/pairing` preserving query params (legacy URL compat)
 
 Router `basename` comes from `import.meta.env.BASE_URL`, which is set via `vite.config.ts`'s `base` (`/tukar-kado/`) — this matters for the GitHub Pages subpath deployment.
+
+**i18n routing & SEO.** One URL per language (`/id/...` vs `/en/...`) rather than a single URL with a runtime language toggle, so each locale is independently indexable. `LocalePage` (in `index.tsx`) calls `i18n.changeLanguage(lang)` on mount to keep i18next in sync with the route — `i18n/config.ts` deliberately has no hardcoded `lng`, so `i18next-browser-languagedetector` (cache → `navigator.language` → `fallbackLng: 'id'`) drives both the initial language and `RootRedirect`'s `/` → `/id/`/`/en/` decision; `changeLanguage()` auto-persists to `localStorage` (`i18nextLng`) via the same detector, so a later visit to `/` remembers an explicit choice instead of re-detecting. The language switcher (`SideMenu.tsx`'s `getLocalizedPath`) navigates to the equivalent page in the other language (`/id/panduan/` ↔ `/en/guide/`, not just same-slug) rather than only calling `changeLanguage`, keeping the URL and the displayed language in sync; on pages with no locale-prefixed equivalent (`/pairing`) it falls back to changing the language in place.
+
+`src/hooks/useDocumentMeta.ts` imperatively sets `document.title`/description/canonical/hreflang(`id`,`en`,`x-default`)/OG/Twitter/robots tags directly on the DOM (not a `<head>` library) — called once per page (`Home`, `Guide`, `Pairing` with `noindex: true`). `src/components/JsonLd.tsx` renders a `<script type="application/ld+json">` the same way (`SoftwareApplication` on `Home`, `HowTo` + `FAQPage` on `Guide`). Both are deliberately plain DOM/JSX rather than a head-management library because **`scripts/prerender.mjs`** captures `page.content()` *after* these run — whatever's in the DOM at that point is what ships as the static HTML for `/id/`, `/en/`, `/id/panduan/`, `/en/guide/` (each gets its own `dist/<path>/index.html`), so no separate "inject metadata into the prerendered file" step is needed. The script also writes `dist/sitemap.xml`. `/pairing` is intentionally not prerendered (nothing there is indexable) and is excluded via `public/robots.txt`. `public/` (Vite's implicit static-copy dir, distinct from the JS-imported `static/`) holds `robots.txt` and `og/{id,en}.png` (branded OG images, generated once via a Playwright screenshot of a styled HTML template, not part of the app build).
 
 **Pairing generation (`src/utils/generatePairs.ts`).** Participants can have at most one `must` rule (forces a specific receiver) and any number of `mustNot` rules (excludes candidates); a self-targeting `must` rule is the one case where self-pairing is allowed. Assigning everyone is a bipartite perfect-matching problem (each participant is both a giver and a receiver), solved exactly via `findPerfectMatching` — DFS augmenting paths (Kuhn's algorithm) over `buildCandidateReceivers`'s candidate sets, with candidate and processing order shuffled so which valid matching gets picked varies between calls. Being exact (not greedy-with-restarts), it never spuriously fails on a satisfiable-but-tight rule set. `generatePairs` still just returns `GeneratedPairs | null`; when it returns `null`, call `diagnoseInfeasibility` separately to get a specific reason (`InfeasibilityReason`, an i18n key + params) — it re-derives candidate sets to check the common explainable conflicts (self-conflicting rules, two givers `must`-targeting the same receiver, a giver with no candidates, a participant nobody can give to) before falling back to a generic `errors.invalidPairs`. `Home.tsx` calls it only on the failure path. `generateGenerationHash` fingerprints the current participants' rules/hints/`groupId` so the UI (`SecretSantaLinks`) can detect when participants changed since pairings were generated and prompt a regeneration.
 

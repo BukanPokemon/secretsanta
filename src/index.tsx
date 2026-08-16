@@ -1,12 +1,13 @@
 import './index.css';
-import './i18n/config';
+import i18n from './i18n/config';
 import '@fontsource/cherry-swash/400.css';
 import '@fontsource/cherry-swash/700.css';
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider, useNavigate, useSearchParams } from "react-router-dom";
 import { Home } from './pages/Home';
 import { Pairing } from './pages/Pairing';
-import { useEffect } from 'react';
+import { Guide } from './pages/Guide';
+import { ReactNode, useEffect } from 'react';
 
 function Redirect({ to }: { to: string }) {
   const [searchParams] = useSearchParams();
@@ -19,9 +20,49 @@ function Redirect({ to }: { to: string }) {
   return null;
 }
 
+// One URL per language (rather than one URL with a runtime toggle) so each
+// locale is independently indexable. The route itself is the source of
+// truth for which language renders — this just keeps i18next in sync with
+// it, which also persists the choice (i18next-browser-languagedetector
+// caches on every changeLanguage() call).
+function LocalePage({ lang, children }: { lang: 'id' | 'en'; children: ReactNode }) {
+  useEffect(() => {
+    i18n.changeLanguage(lang);
+  }, [lang]);
+
+  return <>{children}</>;
+}
+
+function RootRedirect() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // i18next-browser-languagedetector already resolved i18n.language from
+    // a cached choice (a prior explicit switch) or, failing that, the
+    // browser's language — with fallbackLng: 'id' if neither yields a
+    // supported language. No need to re-implement that here.
+    const preferred = i18n.language?.startsWith('en') ? 'en' : 'id';
+    navigate(`/${preferred}/`, { replace: true });
+  }, [navigate]);
+
+  return null;
+}
+
 const router = createBrowserRouter([{
   path: "/",
-  element: <Home />,
+  element: <RootRedirect />,
+}, {
+  path: "/id",
+  element: <LocalePage lang="id"><Home /></LocalePage>,
+}, {
+  path: "/en",
+  element: <LocalePage lang="en"><Home /></LocalePage>,
+}, {
+  path: "/id/panduan",
+  element: <LocalePage lang="id"><Guide /></LocalePage>,
+}, {
+  path: "/en/guide",
+  element: <LocalePage lang="en"><Guide /></LocalePage>,
 }, {
   path: "/pairing",
   element: <Pairing />,
@@ -35,4 +76,4 @@ const router = createBrowserRouter([{
 const root = createRoot(document.getElementById("root")!);
 root.render(
   <RouterProvider router={router} />
-); 
+);

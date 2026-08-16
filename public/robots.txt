@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /pairing
+Allow: /
+
+Sitemap: https://bukanpawkemon.github.io/tukar-kado/sitemap.xml

@@ -39,8 +39,9 @@ export function Settings({
     <div className="space-y-4">
       <div className="p-4 bg-gray-50 rounded-lg space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">{t('settings.eventName')}</label>
+          <label htmlFor="settings-event-name" className="block text-sm font-medium text-gray-700 mb-1">{t('settings.eventName')}</label>
           <input
+            id="settings-event-name"
             type="text"
             value={eventMetadata.eventName ?? ''}
             onChange={e => updateField('eventName', e.target.value || undefined)}
@@ -51,8 +52,9 @@ export function Settings({
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('settings.eventDate')}</label>
+            <label htmlFor="settings-event-date" className="block text-sm font-medium text-gray-700 mb-1">{t('settings.eventDate')}</label>
             <input
+              id="settings-event-date"
               type="date"
               value={eventMetadata.eventDate ?? ''}
               onChange={e => updateField('eventDate', e.target.value || undefined)}
@@ -60,8 +62,9 @@ export function Settings({
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('settings.exchangeDeadline')}</label>
+            <label htmlFor="settings-deadline" className="block text-sm font-medium text-gray-700 mb-1">{t('settings.exchangeDeadline')}</label>
             <input
+              id="settings-deadline"
               type="date"
               value={eventMetadata.exchangeDeadline ?? ''}
               onChange={e => updateField('exchangeDeadline', e.target.value || undefined)}
@@ -79,6 +82,7 @@ export function Settings({
               value={eventMetadata.budgetMin ?? ''}
               onChange={e => updateField('budgetMin', e.target.value === '' ? undefined : Number(e.target.value))}
               placeholder={t('settings.budgetMinPlaceholder')}
+              aria-label={t('settings.budgetMinPlaceholder')}
               className="w-full p-2 border rounded"
             />
             <input
@@ -87,6 +91,7 @@ export function Settings({
               value={eventMetadata.budgetMax ?? ''}
               onChange={e => updateField('budgetMax', e.target.value === '' ? undefined : Number(e.target.value))}
               placeholder={t('settings.budgetMaxPlaceholder')}
+              aria-label={t('settings.budgetMaxPlaceholder')}
               className="w-full p-2 border rounded"
             />
           </div>
@@ -116,9 +121,9 @@ export function Settings({
 
       <div className="p-4 bg-gray-50 rounded-lg">
         <div className="mb-2">
-          <h4 className="block text-sm font-medium text-gray-700">
+          <h3 className="block text-sm font-medium text-gray-700">
             {t('settings.instructions')}
-          </h4>
+          </h3>
           <p className="mt-1 text-xs text-gray-500">
             {t('settings.instructionsHelp')}
           </p>
@@ -128,14 +133,15 @@ export function Settings({
           onChange={(e) => onChangeInstructions(e.target.value)}
           className="w-full p-2 border rounded min-h-[100px]"
           placeholder={t('settings.instructionsPlaceholder')}
+          aria-label={t('settings.instructions')}
         />
       </div>
 
       <div className="p-4 bg-gray-50 rounded-lg">
         <div className="mb-2">
-          <h4 className="block text-sm font-medium text-gray-700">
+          <h3 className="block text-sm font-medium text-gray-700">
             {t('settings.backupTitle')}
-          </h4>
+          </h3>
           <p className="mt-1 text-xs text-gray-500">
             {t('settings.backupHelp')}
           </p>
@@ -162,6 +168,7 @@ export function Settings({
             type="file"
             accept="application/json"
             className="hidden"
+            aria-label={t('settings.importEvent')}
             onChange={handleImportChange}
           />
         </div>

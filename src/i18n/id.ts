@@ -20,19 +20,18 @@ export const id = {
     line: "Baris {{number}}"
   },
   home: {
-    vanity: 'Credits: <a href="https://github.com/arcanis/secretsanta" target="_blank" class="underline hover:text-gray-600">Github</a>',
-    vanityUrl: "https://github.com/arcanis/secretsanta",
+    vanity: 'Berbasis <a href="https://github.com/arcanis/secretsanta" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-600">Secret Santa</a> oleh Maël Nison',
+    viewSource: "Lihat kode sumber",
+    reportIssue: "Laporkan masalah",
+    changelog: "Changelog",
     sponsor: "Dukung saya di GitHub",
-    title: "Perencana Secret Santa",
+    title: "Tukar Kado",
     explanation: [
-      "Selamat datang! Alat ini akan membantu Anda mengatur pertukaran hadiah liburan dengan mudah.",
-      "Tambahkan peserta secara manual atau unggah CSV dengan semua detail peserta (Nama, Alamat, Telepon, Petunjuk Hadiah, Catatan).",
-      "Atur aturan pasangan untuk peserta (paksa pasangan tertentu atau hindari pasangan tertentu).",
-      "Hasilkan pasangan Secret Santa secara otomatis.",
-      "Setiap peserta menerima link unik yang menampilkan siapa yang harus mereka beri hadiah, lengkap dengan Petunjuk Hadiah, Alamat, Telepon, Catatan, dan instruksi opsional.",
-      "Tidak perlu akun, email, atau backend — semuanya berjalan di browser Anda dan di-host di GitHub Pages.",
-      "Nikmati pengalaman Secret Santa yang menyenangkan dan tanpa stres! 🎄",
-      "Anda akan menerima link unik untuk setiap peserta, yang harus dibagikan sendiri (via email, Slack, dll). [Contoh link]"
+      "Tidak perlu akun, tidak perlu email, tidak ada server — daftar peserta kamu tetap di browser ini, dan hasil undian dikirim langsung lewat link yang terenkripsi, bukan lewat kami.",
+      "Masukkan nama peserta satu-satu, atau unggah dari CSV/Excel. Atur aturan kalau perlu — misalnya keluarga atau pasangan tidak boleh saling dapat.",
+      "Klik satu tombol untuk mengundi. Setiap peserta dapat link pribadi yang hanya menampilkan siapa yang harus mereka beri hadiah, lengkap dengan petunjuk hadiah dan info acara kalau kamu isi.",
+      "Bagikan link lewat WhatsApp dengan satu ketukan, kode QR untuk acara tatap muka, atau cetak sebagai slip kertas.",
+      "Gratis, open source, dan berjalan sepenuhnya di browser kamu. Belum yakin? Coba dulu pakai data contoh — tanpa perlu mengisi apa pun."
     ]
   },
   pairing: {
@@ -65,7 +64,8 @@ export const id = {
     rulesCount_one: "{{count}} aturan",
     rulesCount_other: "{{count}} aturan",
     switchToFormView: "Ubah ke tampilan formulir",
-    switchToTextView: "Ubah ke tampilan teks"
+    switchToTextView: "Ubah ke tampilan teks",
+    textViewLabel: "Daftar peserta (format teks)"
   },
   rules: {
     title: "Aturan untuk {{name}}",

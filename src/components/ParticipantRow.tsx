@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 
 interface ParticipantRowProps {
   participant: Participant;
-  participantIndex: number;
   isLast: boolean;
   onNameChange: (name: string) => void;
   onOpenRules: () => void;
@@ -13,7 +12,6 @@ interface ParticipantRowProps {
 
 export function ParticipantRow({
   participant,
-  participantIndex,
   isLast,
   onNameChange,
   onOpenRules,
@@ -29,7 +27,7 @@ export function ParticipantRow({
         onChange={(e) => onNameChange(e.target.value)}
         className="flex-1 min-w-0 p-2 border rounded"
         placeholder={t('participants.enterName')}
-        tabIndex={participantIndex + 1}
+        aria-label={t('participants.enterName')}
         autoFocus={isLast && document.activeElement?.tagName !== 'INPUT' && window.innerWidth >= 768}
       />
 

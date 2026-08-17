@@ -132,6 +132,7 @@ export function ImportWizard({ file, existingParticipants, onImport, onCancel }:
                       value={mapping[header] ?? ""}
                       onChange={e => setColumnField(header, (e.target.value || null) as ParticipantField | null)}
                       className="p-1.5 border rounded text-sm"
+                      aria-label={header || t("import.blankHeader")}
                     >
                       <option value="">{t("import.fieldIgnore")}</option>
                       {PARTICIPANT_FIELDS.map(field => (
@@ -202,7 +203,7 @@ export function ImportWizard({ file, existingParticipants, onImport, onCancel }:
               <button
                 onClick={handleConfirm}
                 disabled={parsed.validCount === 0}
-                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 disabled:bg-gray-300 disabled:cursor-not-allowed"
               >
                 {t("import.confirmButton", { count: parsed.validCount })}
               </button>

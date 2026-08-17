@@ -19,6 +19,7 @@ import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { useWebAnalytics } from '../hooks/useWebAnalytics';
 import { downloadEventBackup, parseEventBackup } from '../utils/eventBackup';
 import { buildExampleParticipants } from '../utils/exampleParticipants';
+import { REPO_URL, ISSUES_URL } from '../config/site';
 
 export function Home() {
   const { t, i18n } = useTranslation();
@@ -223,11 +224,25 @@ export function Home() {
         {/* Bottom center credits — static, not fixed: a fixed footer on a
             tall mobile page ends up floating over whatever content is
             scrolled underneath it and intercepting taps meant for that
-            content. */}
-        <div
-          className="text-center text-gray-400 text-sm py-4"
-          dangerouslySetInnerHTML={{ __html: t('home.vanity') }}
-        />
+            content. Source/issues link the actual fork (trust signal: the
+            code you're running is checkable); the upstream credit below is
+            a separate, distinct link to the original project it's based on. */}
+        <div className="text-center text-gray-400 text-sm py-4 space-y-1">
+          <div className="space-x-3">
+            <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">
+              {t('home.viewSource')}
+            </a>
+            <span aria-hidden="true">·</span>
+            <a href={`${REPO_URL}/blob/main/CHANGELOG.md`} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">
+              {t('home.changelog')}
+            </a>
+            <span aria-hidden="true">·</span>
+            <a href={ISSUES_URL} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">
+              {t('home.reportIssue')}
+            </a>
+          </div>
+          <div dangerouslySetInnerHTML={{ __html: t('home.vanity') }} />
+        </div>
       </PageTransition>
 
       {isRulesModalOpen && selectedParticipantId && (

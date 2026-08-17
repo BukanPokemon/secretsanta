@@ -83,8 +83,9 @@ export function RulesModal({
         <div className="space-y-4 mb-6">
           {/* Hint */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('rules.hintLabel')}</label>
+            <label htmlFor={`hint-${participantId}`} className="block text-sm font-medium text-gray-700 mb-1">{t('rules.hintLabel')}</label>
             <input
+              id={`hint-${participantId}`}
               type="text"
               value={localHint}
               onChange={e => setLocalHint(e.target.value)}
@@ -95,8 +96,9 @@ export function RulesModal({
 
           {/* Address */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('rules.addressLabel', 'Address')}</label>
+            <label htmlFor={`address-${participantId}`} className="block text-sm font-medium text-gray-700 mb-1">{t('rules.addressLabel', 'Address')}</label>
             <input
+              id={`address-${participantId}`}
               type="text"
               value={localAddress}
               onChange={e => setLocalAddress(e.target.value)}
@@ -107,8 +109,9 @@ export function RulesModal({
 
           {/* Phone */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('rules.phoneLabel', 'Phone')}</label>
+            <label htmlFor={`phone-${participantId}`} className="block text-sm font-medium text-gray-700 mb-1">{t('rules.phoneLabel', 'Phone')}</label>
             <input
+              id={`phone-${participantId}`}
               type="text"
               value={localPhone}
               onChange={e => setLocalPhone(e.target.value)}
@@ -119,8 +122,9 @@ export function RulesModal({
 
           {/* Notes */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('rules.notesLabel', 'Notes')}</label>
+            <label htmlFor={`notes-${participantId}`} className="block text-sm font-medium text-gray-700 mb-1">{t('rules.notesLabel', 'Notes')}</label>
             <textarea
+              id={`notes-${participantId}`}
               value={localNotes}
               onChange={e => setLocalNotes(e.target.value)}
               placeholder={t('rules.notesPlaceholder', 'Additional notes (optional)')}
@@ -130,8 +134,9 @@ export function RulesModal({
 
           {/* Wishlist URL */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('rules.wishlistLabel')}</label>
+            <label htmlFor={`wishlist-${participantId}`} className="block text-sm font-medium text-gray-700 mb-1">{t('rules.wishlistLabel')}</label>
             <input
+              id={`wishlist-${participantId}`}
               type="url"
               value={localWishlistUrl}
               onChange={e => setLocalWishlistUrl(e.target.value)}
@@ -142,8 +147,9 @@ export function RulesModal({
 
           {/* Group */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('rules.groupLabel')}</label>
+            <label htmlFor={`group-${participantId}`} className="block text-sm font-medium text-gray-700 mb-1">{t('rules.groupLabel')}</label>
             <input
+              id={`group-${participantId}`}
               type="text"
               value={localGroupId}
               onChange={e => setLocalGroupId(e.target.value)}
@@ -168,6 +174,7 @@ export function RulesModal({
                 value={rule.targetParticipantId}
                 onChange={e => updateRule(index, e.target.value)}
                 className="flex-1 p-2 border rounded"
+                aria-label={rule.type === 'must' ? t('rules.mustBePairedWith') : t('rules.mustNotBePairedWith')}
               >
                 <option value="">{t('rules.selectParticipant')}</option>
                 {Object.values(participants)
@@ -208,7 +215,7 @@ export function RulesModal({
           <button onClick={onClose} className="px-4 py-2 text-gray-600 hover:text-gray-800">
             {t('rules.cancel')}
           </button>
-          <button onClick={handleSave} className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+          <button onClick={handleSave} className="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800">
             {t('rules.saveRules')}
           </button>
         </div>

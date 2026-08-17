@@ -20,19 +20,18 @@ export const en = {
     line: "Line {{number}}"
   },
   home: {
-    vanity: 'Credits: <a href="https://github.com/arcanis/secretsanta" target="_blank" class="underline hover:text-gray-600">Github</a>',
-    vanityUrl: "https://github.com/arcanis/secretsanta",
+    vanity: 'Based on <a href="https://github.com/arcanis/secretsanta" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-600">Secret Santa</a> by Maël Nison',
+    viewSource: "View source",
+    reportIssue: "Report an issue",
+    changelog: "Changelog",
     sponsor: "Support me on GitHub",
-    title: "Secret Santa Planner",
+    title: "Tukar Kado",
     explanation: [
-      "Welcome! This tool will help you arrange your holiday gift exchanges easily.",
-      "Add participants manually or upload a CSV with all participant details (Name, Address, Phone, Gift Hint, Notes).",
-      "Set pairing rules for participants (force a pairing or prevent a pairing).",
-      "Generate Secret Santa pairings automatically.",
-      "Each participant will receive a unique link showing who they should gift, along with Gift Hint, Address, Phone, Notes, and optional instructions.",
-      "No accounts, emails, or backend required — everything runs in your browser and is hosted on GitHub Pages.",
-      "Enjoy a fun and stress-free Secret Santa experience! 🎄",
-      "You will receive a unique link for each participant, which you must share yourself (via email, Slack, etc). [Example link]"
+      "No account, no email, no server — your participant list stays in this browser, and the pairing result travels straight through an encrypted link, not through us.",
+      "Add participants one by one, or upload a CSV/Excel file. Set rules if you need to — couples or family members never drawing each other, for instance.",
+      "Click one button to generate pairings. Each participant gets a private link that only shows who they're gifting, along with any gift hints and event info you filled in.",
+      "Share links with one tap over WhatsApp, a QR code for an in-person exchange, or printed slips.",
+      "Free, open source, and runs entirely in your browser. Not sure yet? Try it with example data first — no typing required."
     ]
   },
   pairing: {
@@ -65,7 +64,8 @@ export const en = {
     rulesCount_one: "{{count}} rule",
     rulesCount_other: "{{count}} rules",
     switchToFormView: "Switch to form view",
-    switchToTextView: "Switch to text view"
+    switchToTextView: "Switch to text view",
+    textViewLabel: "Participant list (text format)"
   },
   rules: {
     title: "Rules for {{name}}",

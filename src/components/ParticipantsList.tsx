@@ -133,7 +133,6 @@ export function ParticipantsList({
           <ParticipantRow
             key={participant.id}
             participant={participant}
-            participantIndex={index}
             isLast={index === Object.keys(participants).length}
             onNameChange={(name) => updateParticipant(participant.id, name)}
             onOpenRules={() => onOpenRules(participant.id)}
@@ -146,7 +145,7 @@ export function ParticipantsList({
       <button
         type="button"
         onClick={onGeneratePairs}
-        className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 flex items-center justify-center gap-2"
+        className="w-full bg-green-700 text-white p-2 rounded hover:bg-green-800 flex items-center justify-center gap-2"
       >
         <ArrowsClockwise size={20} weight="bold" />
         {t('participants.generatePairs')}

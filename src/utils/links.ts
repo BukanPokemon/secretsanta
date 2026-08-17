@@ -48,7 +48,13 @@ export async function generateAssignmentLink(
   instructions?: string,
   eventMetadata?: EventMetadata
 ) {
-  const baseUrl = `${window.location.origin}${window.location.pathname.replace(/\/[^/]*$/, '')}`;
+  // `/pairing` is a fixed top-level route (see src/index.tsx), not nested
+  // under the current page — deriving this from window.location.pathname
+  // (as before Phase 9's /id//en/ locale routes existed) would produce
+  // .../id/pairing when generated from the Indonesian home page, which
+  // matches no route at all. BASE_URL already carries a trailing slash
+  // (e.g. "/tukar-kado/"), so no separating slash is added before "pairing".
+  const baseUrl = `${window.location.origin}${import.meta.env.BASE_URL}`;
 
   const payload: AssignmentPayload = { from: giver, to: receiver };
   if (instructions?.trim()) {
@@ -59,7 +65,7 @@ export async function generateAssignmentLink(
   }
 
   const fragment = await encodeAssignmentFragment(eventKey, payload);
-  return `${baseUrl}/pairing#${fragment}`;
+  return `${baseUrl}pairing#${fragment}`;
 }
 
 const EVENT_KEY_BYTE_LENGTH = 32;

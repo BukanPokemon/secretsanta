@@ -36,6 +36,7 @@ export function ParticipantsTextView({ participants, onChangeParticipants, onGen
         }`}
         value={text}
         onChange={e => handleChange(e.target.value)}
+        aria-label={t('participants.textViewLabel')}
       />
 
       {error && (
@@ -47,7 +48,7 @@ export function ParticipantsTextView({ participants, onChangeParticipants, onGen
       <button
         type="button"
         onClick={onGeneratePairs}
-        className="w-full bg-green-500 text-white p-2 rounded hover:bg-blue-600 flex items-center justify-center gap-2"
+        className="w-full bg-green-700 text-white p-2 rounded hover:bg-green-800 flex items-center justify-center gap-2"
       >
         <ArrowsClockwise size={20} weight="bold" />
         {t('participants.generatePairs')}

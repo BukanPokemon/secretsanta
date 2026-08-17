@@ -97,7 +97,7 @@ export function Guide() {
               <p className="text-gray-600 mb-3">{t('guide.ctaText')}</p>
               <Link
                 to={homePath}
-                className="inline-block px-6 py-3 bg-green-500 text-white rounded-lg font-semibold hover:bg-green-600"
+                className="inline-block px-6 py-3 bg-green-700 text-white rounded-lg font-semibold hover:bg-green-800"
               >
                 {t('guide.ctaButton')}
               </Link>

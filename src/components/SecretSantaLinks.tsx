@@ -153,7 +153,7 @@ export function SecretSantaLinks({
           <p className="text-gray-600 text-balance flex-1 min-w-[200px]">{t("links.shareInstructions")}</p>
           <button
             onClick={handleExportCSV}
-            className="p-2 bg-green-500 text-white rounded hover:bg-green-600 flex flex-none items-center gap-2"
+            className="p-2 bg-green-700 text-white rounded hover:bg-green-800 flex flex-none items-center gap-2"
           >
             <DownloadSimple size={20} weight="bold" />
             {t("links.exportCSV")}
@@ -204,7 +204,7 @@ export function SecretSantaLinks({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => toggleSent(giverId)}
-                    className="p-2 bg-green-600 text-white rounded hover:bg-green-700 flex items-center justify-center gap-2 text-sm"
+                    className="p-2 bg-green-700 text-white rounded hover:bg-green-800 flex items-center justify-center gap-2 text-sm"
                   >
                     <WhatsappLogo size={18} weight="fill" />
                     {t("links.sendWhatsApp")}

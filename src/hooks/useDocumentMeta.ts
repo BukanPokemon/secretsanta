@@ -1,10 +1,5 @@
 import { useEffect } from "react";
-
-// Base URL of the deployed site (GitHub Pages, no custom domain yet — see
-// vite.config.ts's `base` for the matching path). Absolute URLs are needed
-// for canonical/hreflang/OG tags regardless of what path the page is
-// currently served from.
-export const SITE_URL = "https://bukanpawkemon.github.io/tukar-kado";
+import { SITE_URL } from "../config/site";
 
 export interface DocumentMetaOptions {
   title: string;

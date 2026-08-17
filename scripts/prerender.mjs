@@ -21,6 +21,8 @@ const distDir = path.join(__dirname, "..", "dist");
 // env var, so kept consistent here rather than depending on the (currently
 // unused) VITE_BASE_URL passed into the build step.
 const BASE_PATH = "/tukar-kado";
+// Keep in sync with src/config/site.ts's SITE_URL — this is a plain Node
+// script (not compiled), so it can't import that TS module directly.
 const SITE_URL = "https://bukanpawkemon.github.io/tukar-kado";
 
 const MIME_TYPES = {

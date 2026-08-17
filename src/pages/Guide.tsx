@@ -7,16 +7,7 @@ import { PostCard } from '../components/PostCard';
 import { JsonLd } from '../components/JsonLd';
 import { MenuItem } from '../components/SideMenu';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
-
-interface GuideStep {
-  title: string;
-  body: string;
-}
-
-interface GuideFaqItem {
-  question: string;
-  answer: string;
-}
+import { loadGuide, loadFaq } from '../utils/guideContent';
 
 export function Guide() {
   const { t, i18n } = useTranslation();
@@ -36,19 +27,19 @@ export function Guide() {
     ogImagePath: `/og/${lang}.png`,
   });
 
-  const steps = t('guide.steps', { returnObjects: true }) as GuideStep[];
-  const faq = t('guide.faq', { returnObjects: true }) as GuideFaqItem[];
+  const guide = loadGuide(lang);
+  const faq = loadFaq(lang);
 
   const howToJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'HowTo',
-    name: t('guide.title'),
+    name: guide.title,
     description: t('seo.guideDescription'),
-    step: steps.map((step, i) => ({
+    step: guide.sections.map((step, i) => ({
       '@type': 'HowToStep',
       position: i + 1,
       name: step.title,
-      text: step.body,
+      text: step.bodyText,
     })),
   };
 
@@ -58,7 +49,7 @@ export function Guide() {
     mainEntity: faq.map(item => ({
       '@type': 'Question',
       name: item.question,
-      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+      acceptedAnswer: { '@type': 'Answer', text: item.answerText },
     })),
   };
 
@@ -77,15 +68,15 @@ export function Guide() {
         <div className="lg:flex-[7_7_0%]">
           <PostCard>
             <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-red-700">
-              {t('guide.title')}
+              {guide.title}
             </h1>
-            <p className="text-gray-600 mb-6">{t('guide.intro')}</p>
+            <div className="text-gray-600 mb-6" dangerouslySetInnerHTML={{ __html: guide.introHtml }} />
 
             <div className="space-y-6">
-              {steps.map((step, i) => (
+              {guide.sections.map((step, i) => (
                 <div key={i}>
                   <h2 className="text-lg font-semibold text-red-700 mb-1">{step.title}</h2>
-                  <p className="text-gray-700">{step.body}</p>
+                  <div className="text-gray-700" dangerouslySetInnerHTML={{ __html: step.bodyHtml }} />
                 </div>
               ))}
             </div>
@@ -95,7 +86,7 @@ export function Guide() {
               {faq.map((item, i) => (
                 <div key={i}>
                   <h3 className="font-semibold text-gray-800">{item.question}</h3>
-                  <p className="text-gray-600">{item.answer}</p>
+                  <div className="text-gray-600" dangerouslySetInnerHTML={{ __html: item.answerHtml }} />
                 </div>
               ))}
             </div>

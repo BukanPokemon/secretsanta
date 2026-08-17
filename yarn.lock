@@ -3190,6 +3190,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"marked@npm:^18.0.9":
+  version: 18.0.9
+  resolution: "marked@npm:18.0.9"
+  bin:
+    marked: bin/marked.js
+  checksum: 10c0/2fec6c41a8a18f0d9aa6750cd71d8baa7c1abd371e84b04784b735dddf1e581e04bfb37adadeffdb53a3a9e07b1905ab3231cfdf199cc0324edf7b861e3acc46
+  languageName: node
+  linkType: hard
+
 "meow@npm:^13.2.0":
   version: 13.2.0
   resolution: "meow@npm:13.2.0"
@@ -4453,6 +4462,7 @@ __metadata:
     i18next-browser-languagedetector: "npm:^8.0.0"
     immer: "npm:^10.1.1"
     lz-string: "npm:^1.5.0"
+    marked: "npm:^18.0.9"
     papaparse: "npm:^5.4.1"
     playwright: "npm:^1.62.1"
     postcss: "npm:^8.4.49"

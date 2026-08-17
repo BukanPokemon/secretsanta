@@ -1,3 +1,4 @@
+# URL below must match src/config/site.ts's SITE_URL.
 User-agent: *
 Disallow: /pairing
 Allow: /

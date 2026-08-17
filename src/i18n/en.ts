@@ -164,54 +164,11 @@ export const en = {
     guideDescription: "A step-by-step guide to running a Secret Santa gift exchange online: add participants, set pairing rules, generate matches, and share private links via WhatsApp. Free, no signup required."
   },
   guide: {
+    // Tutorial steps and FAQ content live in src/content/{lang}/guide.md
+    // and faq.md, not here — editing them is editing a markdown file, not
+    // a TypeScript object. Only short UI labels stay in this namespace.
     backToHome: "Back to Home",
-    title: "How to Organize a Secret Santa Online",
-    intro: "Tukar Kado is a free tool for running a Secret Santa (or any gift exchange) online — no signup, no email, and no account required. Everyone's name-to-name assignment stays private: it's encrypted right in the link you send them, and the whole thing runs in your browser with nothing sent to a server. Here's how to set one up in a few minutes.",
-    steps: [
-      {
-        title: "1. Add your participants",
-        body: "Go to the home page and type in each person's name. Press Enter after each one to add the next. If you already have a list in a spreadsheet, use \"Upload CSV or Excel\" instead — it works with a plain list of names or a full sheet with addresses, phone numbers, and gift hints. Don't have a list handy? Click \"Try an Example\" to see the whole flow with sample data first."
-      },
-      {
-        title: "2. Set any pairing rules (optional)",
-        body: "Click the gear icon next to a name to add a gift hint, address, phone number, or wishlist link, or to set pairing rules: force a specific pairing, or prevent one. Living with your spouse or siblings in the same draw? Give them the same \"Group\" name and they'll never be paired with each other automatically — no need to click through every exclusion by hand."
-      },
-      {
-        title: "3. Generate the pairings",
-        body: "Click \"Generate Pairings.\" Tukar Kado works out a valid set of matches that respects every rule you set, instantly. If your rules make a valid match impossible — for example, two people both required to give to the same person — you'll get a specific explanation of which rule is the problem, not just a generic error."
-      },
-      {
-        title: "4. Share each link — privately",
-        body: "Every participant gets their own secret link. If you added phone numbers, tap \"Send via WhatsApp\" to message each person directly with one tap. Otherwise, copy each link and send it however you like — chat, email, printed slips with a QR code to scan. Each link only reveals that one person's assignment; nobody else can see it, and you shouldn't open your own link if you don't want to spoil your own surprise."
-      },
-      {
-        title: "5. Reveal day",
-        body: "When a participant opens their link, they see a short explanation of what it is and a tap-to-open reveal — the gift recipient's name isn't shown until they choose to look. If you set a budget, date, or extra instructions, those show up there too."
-      }
-    ],
     faqTitle: "Frequently Asked Questions",
-    faq: [
-      {
-        question: "Do I need to create an account or sign up?",
-        answer: "No. There's no signup, no login, and no account of any kind. Open the page and start adding participants."
-      },
-      {
-        question: "Do you collect participants' email addresses?",
-        answer: "No email addresses are collected or required anywhere in the process. Links are shared directly by you, however you choose — WhatsApp, chat, or in person."
-      },
-      {
-        question: "Where is the participant list stored?",
-        answer: "Only in your own browser's local storage, on your own device. It's never sent to a server — there isn't one. If you clear your browser data, use the Export Event feature beforehand to save a backup file."
-      },
-      {
-        question: "Can someone else see who I'm assigned to give a gift to?",
-        answer: "No. Each participant's assignment is encrypted individually and only readable from their own unique link. Even the organizer can't tell who has whom just by looking at the list of links."
-      },
-      {
-        question: "Is it really free?",
-        answer: "Yes, completely free, with no limits on the number of participants or exchanges."
-      }
-    ],
     ctaText: "Ready to set up your own gift exchange?",
     ctaButton: "Create Your Secret Santa"
   }

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { DownloadSimple, UploadSimple } from '@phosphor-icons/react';
 import { EventMetadata } from '../types';
 import { formatBudget } from '../utils/currency';
+import { BUDGET_PRESETS } from '../config/site';
 
 interface SettingsProps {
   instructions: string;
@@ -89,6 +90,20 @@ export function Settings({
               className="w-full p-2 border rounded"
             />
           </div>
+
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {BUDGET_PRESETS[i18n.language === 'id' ? 'IDR' : 'USD'].map(preset => (
+              <button
+                key={`${preset.min}-${preset.max}`}
+                type="button"
+                onClick={() => onChangeEventMetadata({ ...eventMetadata, budgetMin: preset.min, budgetMax: preset.max })}
+                className="px-2 py-1 text-xs bg-white border border-gray-300 rounded-full text-gray-600 hover:bg-gray-100"
+              >
+                {formatBudget(preset.min, i18n.language)}–{formatBudget(preset.max, i18n.language)}
+              </button>
+            ))}
+          </div>
+
           {(eventMetadata.budgetMin != null || eventMetadata.budgetMax != null) && (
             <p className="mt-1 text-xs text-gray-500">
               {eventMetadata.budgetMin != null && formatBudget(eventMetadata.budgetMin, i18n.language)}

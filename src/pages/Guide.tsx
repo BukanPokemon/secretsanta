@@ -7,10 +7,12 @@ import { PostCard } from '../components/PostCard';
 import { JsonLd } from '../components/JsonLd';
 import { MenuItem } from '../components/SideMenu';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { useWebAnalytics } from '../hooks/useWebAnalytics';
 import { loadGuide, loadFaq } from '../utils/guideContent';
 
 export function Guide() {
   const { t, i18n } = useTranslation();
+  useWebAnalytics();
   const lang = i18n.language === 'en' ? 'en' : 'id';
   const homePath = lang === 'id' ? '/id/' : '/en/';
   const guidePath = lang === 'id' ? '/id/panduan/' : '/en/guide/';

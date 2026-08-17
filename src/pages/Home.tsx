@@ -16,12 +16,15 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 import { Layout } from '../components/Layout';
 import { JsonLd } from '../components/JsonLd';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { useWebAnalytics } from '../hooks/useWebAnalytics';
 import { downloadEventBackup, parseEventBackup } from '../utils/eventBackup';
 import { buildExampleParticipants } from '../utils/exampleParticipants';
 
 export function Home() {
   const { t, i18n } = useTranslation();
   const [isTextView, setIsTextView] = useState(false);
+
+  useWebAnalytics();
 
   const lang = i18n.language === 'en' ? 'en' : 'id';
   useDocumentMeta({

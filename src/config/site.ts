@@ -38,9 +38,13 @@ export const BUDGET_PRESETS: Record<"IDR" | "USD", BudgetPreset[]> = {
   ],
 };
 
-// Set in Phase 11 (Analytics). Left undefined rather than omitted so
-// call sites can check it without an optional-chaining dance.
-export const ANALYTICS_ID: string | undefined = undefined;
+// Cloudflare Web Analytics site token (Phase 11) — cookieless, no personal
+// data processed, so no consent banner is needed for it. Left undefined
+// until a real token exists; useWebAnalytics no-ops until then. Get one at
+// https://dash.cloudflare.com -> Analytics & Logs -> Web Analytics -> "Add a
+// site" (the "manual setup" JS snippet works without moving DNS to
+// Cloudflare) and paste the token here.
+export const CLOUDFLARE_ANALYTICS_TOKEN: string | undefined = undefined;
 
 // No flags in use yet — this exists so a future one has a single place to
 // go, rather than an ad-hoc env var or prop threaded through by hand.

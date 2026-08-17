@@ -84,6 +84,13 @@ async function main() {
   const browser = await chromium.launch();
   const page = await browser.newPage();
 
+  // The prerender pass is a build-time robot visit, not a real reader —
+  // block the analytics beacon so CI runs never count as page views (and
+  // so this script doesn't depend on Cloudflare being reachable to finish
+  // a build). The <script> tag itself still ends up in the captured HTML,
+  // real visitors just load it normally.
+  await page.route("https://static.cloudflareinsights.com/**", route => route.abort());
+
   try {
     for (const route of ROUTES) {
       const url = `${origin}${BASE_PATH}${route.canonicalPath}`;

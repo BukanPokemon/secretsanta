@@ -39,12 +39,10 @@ export const BUDGET_PRESETS: Record<"IDR" | "USD", BudgetPreset[]> = {
 };
 
 // Cloudflare Web Analytics site token (Phase 11) — cookieless, no personal
-// data processed, so no consent banner is needed for it. Left undefined
-// until a real token exists; useWebAnalytics no-ops until then. Get one at
-// https://dash.cloudflare.com -> Analytics & Logs -> Web Analytics -> "Add a
-// site" (the "manual setup" JS snippet works without moving DNS to
-// Cloudflare) and paste the token here.
-export const CLOUDFLARE_ANALYTICS_TOKEN: string | undefined = undefined;
+// data processed, so no consent banner is needed for it. Not a secret (like
+// a GA Measurement ID, it's meant to sit in public client-side HTML) — see
+// useWebAnalytics.ts for where/why it's actually loaded.
+export const CLOUDFLARE_ANALYTICS_TOKEN: string | undefined = "7f906d11457141949ae7de982c95f78a";
 
 // No flags in use yet — this exists so a future one has a single place to
 // go, rather than an ad-hoc env var or prop threaded through by hand.

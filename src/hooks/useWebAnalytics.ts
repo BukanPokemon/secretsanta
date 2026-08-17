@@ -19,7 +19,7 @@ export function useWebAnalytics() {
     if (document.querySelector(`script[src="${BEACON_SRC}"]`)) return;
 
     const script = document.createElement("script");
-    script.defer = true;
+    script.type = "module";
     script.src = BEACON_SRC;
     script.setAttribute("data-cf-beacon", JSON.stringify({ token: CLOUDFLARE_ANALYTICS_TOKEN }));
     document.head.appendChild(script);

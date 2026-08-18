@@ -3,9 +3,15 @@
 @tailwind utilities;
 
 body {
-  background: url(../static/snow.png), url(../static/snow.png), #fefae8 url(../static/cats.webp) bottom left no-repeat;
+  background:
+    url(../static/snow.png),
+    url(../static/snow.png),
+    #fefae8 url(../static/cats.webp) bottom left no-repeat;
   background-repeat: repeat, repeat, no-repeat;
-  background-size: auto auto, auto auto, contain;
+  background-size:
+    auto auto,
+    auto auto,
+    contain;
   background-attachment: fixed, fixed, fixed;
   animation-name: snow;
   animation-duration: 5s;
@@ -14,27 +20,105 @@ body {
   font-family: 'Comic Sans MS';
 }
 
+/* Party theme: swap the falling-snow tile for the party mascot; the
+   falling-confetti effect is rendered separately by <Confetti /> since it
+   needs individually-colored, tumbling pieces rather than a tiled texture. */
+body[data-theme='party'] {
+  /* #fbf3ea matches party.webp's own background, not body's default
+     #fefae8 — using the same color here removes the visible seam where
+     the "contain"-sized image doesn't cover the full viewport. */
+  background: #fbf3ea url(../static/party.webp) bottom left no-repeat;
+  background-size: contain;
+  background-attachment: fixed;
+  animation: none;
+}
+
+/* New Year theme: dark "night sky" backdrop (unlike Christmas/Party's cream)
+   so the gold fireworks in new-year.webp read the way firework art is meant
+   to — the falling-firework-burst effect is rendered separately by
+   <Fireworks />, same reasoning as Confetti for the party theme. */
+body[data-theme='newyear'] {
+  background: #10203f url(../static/new-year.webp) bottom left no-repeat;
+  background-size: contain;
+  background-attachment: fixed;
+  animation: none;
+}
+
 .bg-postcard {
   background: repeating-linear-gradient(
     45deg,
-    #5CC48A,
-    #5CC48A 30px,
-    #FFFFFF 30px,
-    #FFFFFF 60px,
-    #EF3D3D 60px,
-    #EF3D3D 90px,
-    #FFFFFF 90px,
-    #FFFFFF 120px
+    #5cc48a,
+    #5cc48a 30px,
+    #ffffff 30px,
+    #ffffff 60px,
+    #ef3d3d 60px,
+    #ef3d3d 90px,
+    #ffffff 90px,
+    #ffffff 120px
   );
 }
 
 .bg-postcard-nowhite {
   background: repeating-linear-gradient(
     45deg,
-    #5CC48A,
-    #5CC48A 30px,
-    #EF3D3D 30px,
-    #EF3D3D 60px
+    #5cc48a,
+    #5cc48a 30px,
+    #ef3d3d 30px,
+    #ef3d3d 60px
+  );
+}
+
+/* Party theme: swap the red/green candy stripe for a gold/coral one (same
+   stripe geometry, different palette) so the card border and accordion
+   headers read as a distinct theme, not just the page background. */
+body[data-theme='party'] .bg-postcard {
+  background: repeating-linear-gradient(
+    45deg,
+    #f2c94c,
+    #f2c94c 30px,
+    #ffffff 30px,
+    #ffffff 60px,
+    #ef6f6f 60px,
+    #ef6f6f 90px,
+    #ffffff 90px,
+    #ffffff 120px
+  );
+}
+
+body[data-theme='party'] .bg-postcard-nowhite {
+  background: repeating-linear-gradient(
+    45deg,
+    #f2c94c,
+    #f2c94c 30px,
+    #ef6f6f 30px,
+    #ef6f6f 60px
+  );
+}
+
+/* New Year theme: dark blue/silver stripe (matches new-year.webp's night-sky
+   background and silver lettering) instead of Christmas's red/green or
+   Party's gold/coral. */
+body[data-theme='newyear'] .bg-postcard {
+  background: repeating-linear-gradient(
+    45deg,
+    #1e3a70,
+    #1e3a70 30px,
+    #ffffff 30px,
+    #ffffff 60px,
+    #c7cdd4 60px,
+    #c7cdd4 90px,
+    #ffffff 90px,
+    #ffffff 120px
+  );
+}
+
+body[data-theme='newyear'] .bg-postcard-nowhite {
+  background: repeating-linear-gradient(
+    45deg,
+    #1e3a70,
+    #1e3a70 30px,
+    #c7cdd4 30px,
+    #c7cdd4 60px
   );
 }
 
@@ -56,19 +140,34 @@ code {
 
 @keyframes snow {
   0% {
-    background-position: 130px 40px, 0 0, 0 0;
+    background-position:
+      130px 40px,
+      0 0,
+      0 0;
   }
   100% {
-    background-position: 130px 640px, 0 300px, 0 0
+    background-position:
+      130px 640px,
+      0 300px,
+      0 0;
   }
 }
 
-@keyframes confetti-fall {
+@keyframes confetti-rise-right {
   0% {
-    transform: translateY(-10vh);
+    transform: translate(0, 0);
   }
   100% {
-    transform: translateY(110vh);
+    transform: translate(60vw, -130vh);
+  }
+}
+
+@keyframes confetti-rise-left {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-60vw, -130vh);
   }
 }
 
@@ -78,5 +177,16 @@ code {
   }
   100% {
     rotate: calc(var(--confetti-spin, 1) * 360deg);
+  }
+}
+
+@keyframes firework-particle {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--firework-dx), var(--firework-dy)) scale(0.3);
+    opacity: 0;
   }
 }

@@ -24,7 +24,7 @@ atau menyimpan datanya di server mereka. Tukar Kado tidak melakukan itu:
   mana pun — termasuk saat WhatsApp atau Telegram menampilkan pratinjau link
   yang kamu kirim.
 - **Halaman pembukaan dua tahap.** Saat peserta membuka link-nya, nama
-  pasangannya *tidak* langsung muncul di layar — mereka harus mengetuk kotak
+  pasangannya _tidak_ langsung muncul di layar — mereka harus mengetuk kotak
   hadiah dulu. Jadi tidak ada risiko ke-spoiler cuma dari melirik layar.
 
 Baca detail teknisnya di [`CLAUDE.md`](CLAUDE.md).
@@ -92,6 +92,8 @@ Tukar Kado adalah pengembangan ulang dari
 **[Secret Santa](https://github.com/arcanis/secretsanta) oleh Maël Nison**
 (2015) — Fork ini menulis ulang hampir semua bagian (kripto, algoritma
 matching, i18n, dll), tapi ide dasarnya dari proyek beliau. Terima kasih!
+
+Ilustrasi hewan pesta (`static/party.webp`) diproses dengan bantuan Magnific AI.
 
 Dilisensikan MIT, mengikuti lisensi asli:
 

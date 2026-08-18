@@ -1,10 +1,10 @@
 # How to Organize a Secret Santa Online
 
-Tukar Kado is a free tool for running a Secret Santa (or any gift exchange) online, no signup, no email, and no account required. Everyone's name-to-name assignment stays private: it's encrypted right in the link you send them, and the whole thing runs in your browser with nothing sent to a server. Here's how to set one up in a few minutes.
+This is a free tool for running a Secret Santa (or any gift exchange) online, no signup, no email, and no account required. Everyone's name-to-name assignment stays private: it's encrypted right in the link you send them, and the whole thing runs in your browser with nothing sent to a server. Here's how to set one up in a few minutes.
 
 ## 1. Add your participants
 
-Go to the home page and type in each person's name. Press Enter after each one to add the next. If you already have a list in a spreadsheet, use "Upload CSV or Excel" instead — it works with a plain list of names or a full sheet with addresses, phone numbers, and gift hints. Don't have a list handy? Click "Try an Example" to see the whole flow with sample data first.
+Go to the home page and type in each person's name. Press Enter after each one to add the next. If you already have a list in a spreadsheet, use "Upload CSV or Excel" instead — it works with a plain list of names or a full sheet with addresses, phone numbers, and gift hints.
 
 ## 2. Set any pairing rules (optional)
 
@@ -12,7 +12,7 @@ Click the gear icon next to a name to add a gift hint, address, phone number, or
 
 ## 3. Generate the pairings
 
-Click "Generate Pairings." Tukar Kado works out a valid set of matches that respects every rule you set, instantly. If your rules make a valid match impossible — for example, two people both required to give to the same person — you'll get a specific explanation of which rule is the problem, not just a generic error.
+Click "Generate Pairings." Secret Santa works out a valid set of matches that respects every rule you set, instantly. If your rules make a valid match impossible — for example, two people both required to give to the same person — you'll get a specific explanation of which rule is the problem, not just a generic error.
 
 ## 4. Share each link, privately
 

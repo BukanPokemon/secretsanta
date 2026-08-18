@@ -7,6 +7,11 @@ import { ImportWizard } from './ImportWizard'
 import { produce } from 'immer'
 import xlsxTemplateUrl from '../../static/tukar-kado-template.xlsx?url'
 
+// Hidden for now to keep the empty state simpler — flip back on rather than
+// deleting the feature (handler, i18n strings, and exampleParticipants.ts
+// are all still wired up and tested).
+const SHOW_TRY_EXAMPLE = false
+
 interface ParticipantsListProps {
   participants: Record<string, Participant>
   onChangeParticipants: (newParticipants: Record<string, Participant>) => void
@@ -87,7 +92,7 @@ export function ParticipantsList({
   return (
     <div className="space-y-4">
 
-      {isEmpty ? (
+      {isEmpty && SHOW_TRY_EXAMPLE ? (
         <button
           type="button"
           onClick={onTryExample}
@@ -96,7 +101,7 @@ export function ParticipantsList({
           <Sparkle size={16} weight="bold" />
           {t('participants.tryExample')}
         </button>
-      ) : (
+      ) : !isEmpty ? (
         <button
           type="button"
           onClick={handleClearAll}
@@ -105,7 +110,7 @@ export function ParticipantsList({
           <Trash size={16} weight="bold" />
           {t('participants.clearAll')}
         </button>
-      )}
+      ) : null}
 
       {/* Spreadsheet import */}
       <div className="space-y-2">

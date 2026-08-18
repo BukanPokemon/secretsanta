@@ -25,7 +25,7 @@ import { useDocumentMeta } from '../hooks/useDocumentMeta'
 import { useWebAnalytics } from '../hooks/useWebAnalytics'
 import { downloadEventBackup, parseEventBackup } from '../utils/eventBackup'
 import { buildExampleParticipants } from '../utils/exampleParticipants'
-import { REPO_URL, ISSUES_URL, SUPPORT_URL } from '../config/site'
+import { REPO_URL, ISSUES_URL, SUPPORT_URL, SITE_URL } from '../config/site'
 
 // Hidden for now to simplify the footer — not deleted, same as
 // SHOW_TRY_EXAMPLE in ParticipantsList.tsx.
@@ -60,6 +60,25 @@ export function Home() {
     operatingSystem: 'Any (web browser)',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     description: t('seo.homeDescription'),
+  }
+
+  // WebSite + publisher Organization entity — separate from the
+  // SoftwareApplication block above (that's "what this page is", this is
+  // "who's behind it and what else is theirs"), for AI answer engines and
+  // Google to attribute the tool to a citable identity rather than just an
+  // anonymous page.
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: lang === 'en' ? 'Secret Santa' : 'Tukar Kado',
+    url: `${SITE_URL}/`,
+    inLanguage: ['id', 'en'],
+    publisher: {
+      '@type': 'Organization',
+      name: 'Tukar Kado',
+      url: `${SITE_URL}/`,
+      sameAs: [REPO_URL],
+    },
   }
 
   const [participants, setParticipants] = useLocalStorage<
@@ -306,6 +325,7 @@ export function Home() {
       {theme === 'newyear' && <Fireworks />}
       <PageTransition>
         <JsonLd data={softwareAppJsonLd} />
+        <JsonLd data={websiteJsonLd} />
         <Layout menuItems={[]} topRight={themeSwitcher} footer={footer}>
           {/* Main content */}
           <div className="lg:flex-[6_6_0%]">

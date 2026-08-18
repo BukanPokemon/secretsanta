@@ -4,10 +4,21 @@ import '@fontsource/cherry-swash/400.css';
 import '@fontsource/cherry-swash/700.css';
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider, useNavigate, useSearchParams } from "react-router-dom";
-import { Home } from './pages/Home';
-import { Pairing } from './pages/Pairing';
-import { Guide } from './pages/Guide';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, Suspense, lazy, useEffect } from 'react';
+
+// Route-level code splitting: each page's own chunk (and whatever it alone
+// depends on — framer-motion is only used by Pairing, marked/guide content
+// only by Guide) loads only when that route is actually visited, instead of
+// every visitor downloading all three pages' code up front. Prerendering
+// still works unchanged — scripts/prerender.mjs already waits for
+// networkidle plus an `h1` selector, which covers the extra chunk fetch.
+const Home = lazy(() => import('./pages/Home').then(m => ({ default: m.Home })));
+const Pairing = lazy(() => import('./pages/Pairing').then(m => ({ default: m.Pairing })));
+const Guide = lazy(() => import('./pages/Guide').then(m => ({ default: m.Guide })));
+
+function LazyPage({ children }: { children: ReactNode }) {
+  return <Suspense fallback={null}>{children}</Suspense>;
+}
 
 function Redirect({ to }: { to: string }) {
   const [searchParams] = useSearchParams();
@@ -53,19 +64,19 @@ const router = createBrowserRouter([{
   element: <RootRedirect />,
 }, {
   path: "/id",
-  element: <LocalePage lang="id"><Home /></LocalePage>,
+  element: <LocalePage lang="id"><LazyPage><Home /></LazyPage></LocalePage>,
 }, {
   path: "/en",
-  element: <LocalePage lang="en"><Home /></LocalePage>,
+  element: <LocalePage lang="en"><LazyPage><Home /></LazyPage></LocalePage>,
 }, {
   path: "/id/panduan",
-  element: <LocalePage lang="id"><Guide /></LocalePage>,
+  element: <LocalePage lang="id"><LazyPage><Guide /></LazyPage></LocalePage>,
 }, {
   path: "/en/guide",
-  element: <LocalePage lang="en"><Guide /></LocalePage>,
+  element: <LocalePage lang="en"><LazyPage><Guide /></LazyPage></LocalePage>,
 }, {
   path: "/pairing",
-  element: <Pairing />,
+  element: <LazyPage><Pairing /></LazyPage>,
 }, {
   path: "/pairing.html",
   element: <Redirect to="/pairing" />

@@ -108,14 +108,6 @@ export function Settings({
               </button>
             ))}
           </div>
-
-          {(eventMetadata.budgetMin != null || eventMetadata.budgetMax != null) && (
-            <p className="mt-1 text-xs text-gray-500">
-              {eventMetadata.budgetMin != null && formatBudget(eventMetadata.budgetMin, i18n.language)}
-              {eventMetadata.budgetMin != null && eventMetadata.budgetMax != null && ' – '}
-              {eventMetadata.budgetMax != null && formatBudget(eventMetadata.budgetMax, i18n.language)}
-            </p>
-          )}
         </div>
       </div>
 

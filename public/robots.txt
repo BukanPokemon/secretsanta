@@ -3,4 +3,36 @@ User-agent: *
 Disallow: /pairing
 Allow: /
 
+# Explicitly welcome AI crawlers/answer engines (same rules as the wildcard
+# above — the * block already covers them) so it's clear on inspection that
+# GEO/AI-search visibility is intentional, not just an accident of the
+# wildcard rule.
+User-agent: GPTBot
+Disallow: /pairing
+Allow: /
+
+User-agent: ChatGPT-User
+Disallow: /pairing
+Allow: /
+
+User-agent: Google-Extended
+Disallow: /pairing
+Allow: /
+
+User-agent: ClaudeBot
+Disallow: /pairing
+Allow: /
+
+User-agent: anthropic-ai
+Disallow: /pairing
+Allow: /
+
+User-agent: PerplexityBot
+Disallow: /pairing
+Allow: /
+
+User-agent: CCBot
+Disallow: /pairing
+Allow: /
+
 Sitemap: https://bukanpawkemon.github.io/tukar-kado/sitemap.xml

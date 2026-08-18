@@ -1,0 +1,24 @@
+<!-- URLs below must match src/config/site.ts's SITE_URL. -->
+
+# Tukar Kado
+
+> Tukar Kado is a free, privacy-focused Secret Santa / gift exchange generator. An organizer adds participants and optional pairing rules in their own browser, draws pairings, and shares one individually encrypted link per giver — there is no account, no email collection, and no server-side storage; participant data never leaves the organizer's browser except inside the links they choose to share.
+
+## Pages
+
+- [Organize a gift exchange — Indonesian](https://bukanpawkemon.github.io/tukar-kado/id/): Primary/default version. Add participants, set pairing rules (force or prevent specific pairings, group exclusions), import from CSV/Excel, and generate encrypted Secret Santa links.
+- [Organize a gift exchange — English](https://bukanpawkemon.github.io/tukar-kado/en/): English version of the same organizer tool.
+- [How-to guide and FAQ — Indonesian](https://bukanpawkemon.github.io/tukar-kado/id/panduan/): Step-by-step instructions and frequently asked questions, in Indonesian.
+- [How-to guide and FAQ — English](https://bukanpawkemon.github.io/tukar-kado/en/guide/): English version of the guide and FAQ.
+
+## Key facts
+
+- Free, no account or sign-up required, no email collected.
+- Runs entirely client-side: participants, rules, and generated pairings are stored only in the organizer's own browser (localStorage), never on a server.
+- Each recipient reveal link is individually encrypted (AES-GCM) so only that one giver's assignment is readable from it — not even the organizer can tell who got whom just by looking at the list of links.
+- Supports gift hints, addresses, phone numbers (WhatsApp send), wishlist links, group exclusions (e.g. couples/families never drawing each other), budget ranges, and event deadlines.
+- Open source, MIT-licensed, forked from and credits Maël Nison's original Secret Santa project.
+
+## Source
+
+- Repository: https://github.com/BukanPawkemon/tukar-kado

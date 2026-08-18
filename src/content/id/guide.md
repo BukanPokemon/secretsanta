@@ -1,6 +1,6 @@
 # Cara Bikin Tukar Kado Online
 
-Tukar Kado adalah alat gratis untuk bikin undian tukar kado (Secret Santa) online — tanpa daftar, tanpa email, tanpa akun. Hasil undian siapa-dapat-siapa tetap rahasia: datanya dienkripsi langsung di dalam link yang kamu bagikan, dan semuanya berjalan di browser tanpa ada yang dikirim ke server mana pun. Begini cara bikinnya, cuma butuh beberapa menit.
+Tukar Kado adalah web gratis untuk bikin undian tukar kado online, tanpa daftar, tanpa email, tanpa akun. Hasil undian siapa-dapat-siapa tetap rahasia: datanya dienkripsi langsung di dalam link yang kamu bagikan, dan semuanya berjalan di browser tanpa ada yang dikirim ke server mana pun. Begini cara bikinnya, cuma butuh beberapa menit.
 
 ## 1. Tambahkan peserta
 
@@ -14,7 +14,7 @@ Klik ikon gerigi di sebelah nama untuk menambahkan petunjuk hadiah, alamat, nomo
 
 Klik "Hasilkan Pasangan." Tukar Kado langsung mencari kombinasi pasangan yang valid dan memenuhi semua aturan yang kamu atur. Kalau aturannya bikin kombinasi valid jadi mustahil — misalnya dua orang sama-sama dipaksa memberi ke orang yang sama — kamu akan dapat penjelasan spesifik aturan mana yang bermasalah, bukan cuma pesan error umum.
 
-## 4. Bagikan link — secara rahasia
+## 4. Bagikan link, secara rahasia
 
 Setiap peserta dapat link rahasia masing-masing. Kalau sudah isi nomor HP, tinggal tap "Kirim via WhatsApp" untuk kirim langsung ke tiap orang. Kalau tidak, salin link-nya dan kirim lewat cara apa saja — chat, email, atau slip cetak dengan kode QR untuk dipindai. Setiap link cuma menampilkan pasangan orang itu saja; orang lain tidak bisa melihatnya, dan sebaiknya kamu juga tidak membuka link milikmu sendiri kalau tidak mau kejutannya hilang.
 

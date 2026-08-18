@@ -1,6 +1,6 @@
 # How to Organize a Secret Santa Online
 
-Tukar Kado is a free tool for running a Secret Santa (or any gift exchange) online — no signup, no email, and no account required. Everyone's name-to-name assignment stays private: it's encrypted right in the link you send them, and the whole thing runs in your browser with nothing sent to a server. Here's how to set one up in a few minutes.
+Tukar Kado is a free tool for running a Secret Santa (or any gift exchange) online, no signup, no email, and no account required. Everyone's name-to-name assignment stays private: it's encrypted right in the link you send them, and the whole thing runs in your browser with nothing sent to a server. Here's how to set one up in a few minutes.
 
 ## 1. Add your participants
 
@@ -14,7 +14,7 @@ Click the gear icon next to a name to add a gift hint, address, phone number, or
 
 Click "Generate Pairings." Tukar Kado works out a valid set of matches that respects every rule you set, instantly. If your rules make a valid match impossible — for example, two people both required to give to the same person — you'll get a specific explanation of which rule is the problem, not just a generic error.
 
-## 4. Share each link — privately
+## 4. Share each link, privately
 
 Every participant gets their own secret link. If you added phone numbers, tap "Send via WhatsApp" to message each person directly with one tap. Otherwise, copy each link and send it however you like — chat, email, printed slips with a QR code to scan. Each link only reveals that one person's assignment; nobody else can see it, and you shouldn't open your own link if you don't want to spoil your own surprise.
 

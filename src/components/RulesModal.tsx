@@ -168,20 +168,20 @@ export function RulesModal({
           {localRules.map((rule, index) => (
             <div key={index} className="flex gap-2 items-center">
               <span>
-                {rule.type === 'must' ? t('rules.mustBePairedWith') : t('rules.mustNotBePairedWith')}
+                {t(rule.type === 'must' ? 'rules.mustBePairedWith' : 'rules.mustNotBePairedWith', { name: participant.name })}
               </span>
               <select
                 value={rule.targetParticipantId}
                 onChange={e => updateRule(index, e.target.value)}
                 className="flex-1 p-2 border rounded"
-                aria-label={rule.type === 'must' ? t('rules.mustBePairedWith') : t('rules.mustNotBePairedWith')}
+                aria-label={t(rule.type === 'must' ? 'rules.mustBePairedWith' : 'rules.mustNotBePairedWith', { name: participant.name })}
               >
                 <option value="">{t('rules.selectParticipant')}</option>
                 {Object.values(participants)
                   .filter(p => p.id !== participantId)
                   .map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
               </select>
-              <button onClick={() => removeRule(index)} className="p-2 text-red-500 hover:text-red-700">
+              <button onClick={() => removeRule(index)} className="p-2 text-red-500 hover:text-red-700" aria-label={t('rules.removeRule')}>
                 <X size={20} weight="bold"/>
               </button>
             </div>

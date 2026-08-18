@@ -2,61 +2,63 @@
 
 **[Coba sekarang di bukanpawkemon.github.io/tukar-kado](https://bukanpawkemon.github.io/tukar-kado/)** · [☕ Dukung di Trakteer](https://trakteer.id/BukanPawkemon)
 
-Alat gratis untuk bikin undian tukar kado (Secret Santa) online. Tanpa
-daftar, tanpa email, tanpa akun. Daftar peserta kamu tetap di browser, dan
-hasil undian dikirim langsung lewat link yang terenkripsi, bukan lewat kami.
+Bikin undian tukar kado (Secret Santa) online, gratis dan gampang banget.
+Nggak perlu daftar, nggak perlu email, nggak perlu akun. Data peserta kamu
+tetap di browser sendiri, dan hasil undiannya dikirim lewat link
+terenkripsi, bukan lewat kami.
 
 ![Halaman utama Tukar Kado](docs/screenshots/home-id.png)
 
-## Kenapa ini beda
+## Kenapa beda dari yang lain
 
-Kebanyakan alat undian nama minta kamu login, memasukkan email semua orang,
-atau menyimpan datanya di server mereka. Tukar Kado tidak melakukan itu:
+Kebanyakan alat undian nama minta kamu login dulu, masukin email semua
+orang, atau nyimpen datanya di server mereka. Tukar Kado nggak gitu:
 
-- **Tidak ada backend.** Murni jalan di browser, tidak ada server yang tahu
-  siapa dapat siapa.
-- **Setiap link terenkripsi sendiri-sendiri.** Tiap peserta dapat kunci acak;
-  hasil pasangannya dienkripsi langsung ke dalam link, bukan disimpan di
-  tempat lain.
-- **Link-nya aman dibagikan lewat chat.** Data pasangan ada di fragment URL
-  (`#...`), yang tidak pernah dikirim ke server, termasuk saat WhatsApp
-  atau Telegram menampilkan pratinjau link.
-- **Halaman pembukaan dua tahap.** Nama pasangan tidak langsung muncul;
-  peserta harus mengetuk kotak hadiah dulu, jadi tidak ada risiko ke-spoiler
-  cuma dari melirik layar.
+- **Nggak ada backend.** Semuanya jalan di browser kamu doang, nggak ada
+  server yang tahu siapa dapat siapa.
+- **Tiap link punya kunci enkripsi sendiri.** Begitu kamu klik "Hasilkan
+  Pasangan", tiap peserta dapat kunci acak buat acara itu. Hasil
+  pasangannya langsung dienkripsi ke dalam link, bukan disimpan di tempat
+  lain.
+- **Aman dibagikan lewat chat.** Data pasangan nyempil di fragment URL
+  (`#...`) yang emang nggak pernah dikirim ke server, termasuk pas
+  WhatsApp atau Telegram nampilin pratinjau link.
+- **Bukaan dua tahap.** Nama pasangan nggak langsung nongol; peserta harus
+  ketuk kotak hadiah dulu. Jadi nggak ada acara ke-spoiler cuma gara-gara
+  ngelirik layar.
 
 ## Fitur
 
-- Tambah peserta manual, lewat format teks singkat, atau impor dari CSV/Excel
-  (deteksi kolom otomatis, header Indonesia atau Inggris)
-- Aturan pasangan: paksa pasangan tertentu, larang pasangan tertentu, atau
-  kelompokkan (misal keluarga) supaya otomatis tidak saling dapat.
-  Semua diselesaikan dengan algoritma matching yang presisi, jadi kalau
-  ada kombinasi yang valid pasti ketemu, dan kalau tidak ada, kamu dapat
-  alasan spesifiknya
-- Kirim link lewat WhatsApp dengan satu ketukan, kode QR untuk acara tatap
-  muka, atau cetak sebagai slip kertas
-- Info acara opsional: nama acara, tanggal, batas waktu, kisaran anggaran,
-  dan link wishlist per peserta
-- Cadangkan/pulihkan seluruh acara sebagai satu file, berguna kalau data
-  browser kamu terhapus
-- Bahasa Indonesia dan Inggris, masing-masing di URL sendiri
+- Tambah peserta manual, lewat format teks singkat, atau tinggal upload
+  CSV/Excel (kolom otomatis kedeteksi, header Indonesia atau Inggris)
+- Atur aturan pasangan: paksa dapat orang tertentu, larang dapat orang
+  tertentu, atau kelompokkan (misal satu keluarga) biar otomatis nggak
+  saling dapat. Semua dihitung pakai algoritma matching yang presisi,
+  jadi kalau ada kombinasi valid pasti ketemu, dan kalau nggak ada, kamu
+  dikasih tahu alasan spesifiknya
+- Kirim link lewat WhatsApp sekali tap, kode QR buat acara tatap muka,
+  atau cetak jadi slip kertas
+- Info acara opsional: nama acara, tanggal, batas waktu, kisaran budget,
+  sampai link wishlist tiap peserta
+- Backup/restore seluruh acara jadi satu file, berguna kalau data browser
+  kamu ke-hapus
+- Ada Bahasa Indonesia dan Inggris, masing-masing di URL sendiri
 
-## Menjalankan secara lokal
+## Jalanin secara lokal
 
 Proyek ini pakai [Yarn Berry](https://yarnpkg.com/) (`yarn@4.5.1`).
 
 ```bash
 yarn              # install dependencies
-yarn dev          # jalankan dev server
-yarn build        # build untuk produksi
-yarn vitest       # jalankan test
+yarn dev          # jalanin dev server
+yarn build        # build buat produksi
+yarn vitest       # jalanin test
 ```
 
 ## English
 
 Tukar Kado ("gift exchange" in Indonesian) is a free Secret Santa /
-gift-exchange generator. No signup, no email, no account. **Live at
+gift-exchange generator, no signup, no email, no account needed. **Live at
 [bukanpawkemon.github.io/tukar-kado](https://bukanpawkemon.github.io/tukar-kado/)**
 (English available at [`/en/`](https://bukanpawkemon.github.io/tukar-kado/en/)).
 
@@ -84,7 +86,7 @@ yarn && yarn dev
 Tukar Kado adalah pengembangan ulang dari
 **[Secret Santa](https://github.com/arcanis/secretsanta) oleh Maël Nison**
 (2015). Fork ini menulis ulang hampir semua bagian (kripto, algoritma
-matching, i18n, dll), tapi ide dasarnya dari proyek beliau. Terima kasih!
+matching, i18n, dll), tapi ide dasarnya tetap dari proyek beliau. Makasih!
 
 Ilustrasi hewan pesta (`static/party.webp`) diproses dengan bantuan Magnific AI.
 
@@ -98,5 +100,5 @@ Dilisensikan MIT, mengikuti lisensi asli:
 >
 > THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Menemukan bug atau punya saran? [Buka issue](https://github.com/BukanPawkemon/tukar-kado/issues).
+Nemu bug atau punya saran? [Buka issue](https://github.com/BukanPawkemon/tukar-kado/issues).
 Lihat riwayat perubahan di [`CHANGELOG.md`](CHANGELOG.md).

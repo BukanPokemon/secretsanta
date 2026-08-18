@@ -1,8 +1,8 @@
 # Tukar Kado 🎄
 
-**[Coba sekarang di bukanpawkemon.github.io/tukar-kado](https://bukanpawkemon.github.io/tukar-kado/)**
+**[Coba sekarang di bukanpawkemon.github.io/tukar-kado](https://bukanpawkemon.github.io/tukar-kado/)** · [☕ Dukung di Trakteer](https://trakteer.id/BukanPawkemon)
 
-Alat gratis untuk bikin undian tukar kado (Secret Santa) online — tanpa
+Alat gratis untuk bikin undian tukar kado (Secret Santa) online. Tanpa
 daftar, tanpa email, tanpa akun. Daftar peserta kamu tetap di browser, dan
 hasil undian dikirim langsung lewat link yang terenkripsi, bukan lewat kami.
 
@@ -13,36 +13,32 @@ hasil undian dikirim langsung lewat link yang terenkripsi, bukan lewat kami.
 Kebanyakan alat undian nama minta kamu login, memasukkan email semua orang,
 atau menyimpan datanya di server mereka. Tukar Kado tidak melakukan itu:
 
-- **Tidak ada backend.** Ini murni aplikasi yang jalan di browser. Tidak ada
-  server yang menyimpan siapa dapat siapa.
-- **Setiap link terenkripsi sendiri-sendiri.** Saat kamu klik "Hasilkan
-  Pasangan", setiap peserta dapat kunci enkripsi acak untuk acara itu. Hasil
-  pasangannya dikemas dan dienkripsi ke dalam link itu sendiri — bukan
-  disimpan di suatu tempat yang bisa diakses orang lain.
-- **Link-nya aman dibagikan lewat chat.** Data pasangan ada di bagian `#`
-  URL (fragment), bagian yang secara teknis tidak pernah dikirim ke server
-  mana pun — termasuk saat WhatsApp atau Telegram menampilkan pratinjau link
-  yang kamu kirim.
-- **Halaman pembukaan dua tahap.** Saat peserta membuka link-nya, nama
-  pasangannya _tidak_ langsung muncul di layar — mereka harus mengetuk kotak
-  hadiah dulu. Jadi tidak ada risiko ke-spoiler cuma dari melirik layar.
-
-Baca detail teknisnya di [`CLAUDE.md`](CLAUDE.md).
+- **Tidak ada backend.** Murni jalan di browser, tidak ada server yang tahu
+  siapa dapat siapa.
+- **Setiap link terenkripsi sendiri-sendiri.** Tiap peserta dapat kunci acak;
+  hasil pasangannya dienkripsi langsung ke dalam link, bukan disimpan di
+  tempat lain.
+- **Link-nya aman dibagikan lewat chat.** Data pasangan ada di fragment URL
+  (`#...`), yang tidak pernah dikirim ke server, termasuk saat WhatsApp
+  atau Telegram menampilkan pratinjau link.
+- **Halaman pembukaan dua tahap.** Nama pasangan tidak langsung muncul;
+  peserta harus mengetuk kotak hadiah dulu, jadi tidak ada risiko ke-spoiler
+  cuma dari melirik layar.
 
 ## Fitur
 
 - Tambah peserta manual, lewat format teks singkat, atau impor dari CSV/Excel
   (deteksi kolom otomatis, header Indonesia atau Inggris)
 - Aturan pasangan: paksa pasangan tertentu, larang pasangan tertentu, atau
-  kelompokkan (misal keluarga) supaya otomatis tidak saling dapat
-  — semua diselesaikan dengan algoritma matching yang presisi, jadi kalau
+  kelompokkan (misal keluarga) supaya otomatis tidak saling dapat.
+  Semua diselesaikan dengan algoritma matching yang presisi, jadi kalau
   ada kombinasi yang valid pasti ketemu, dan kalau tidak ada, kamu dapat
   alasan spesifiknya
 - Kirim link lewat WhatsApp dengan satu ketukan, kode QR untuk acara tatap
   muka, atau cetak sebagai slip kertas
 - Info acara opsional: nama acara, tanggal, batas waktu, kisaran anggaran,
   dan link wishlist per peserta
-- Cadangkan/pulihkan seluruh acara sebagai satu file — berguna kalau data
+- Cadangkan/pulihkan seluruh acara sebagai satu file, berguna kalau data
   browser kamu terhapus
 - Bahasa Indonesia dan Inggris, masing-masing di URL sendiri
 
@@ -57,12 +53,10 @@ yarn build        # build untuk produksi
 yarn vitest       # jalankan test
 ```
 
-Detail arsitektur dan konvensi kode ada di [`CLAUDE.md`](CLAUDE.md).
-
 ## English
 
 Tukar Kado ("gift exchange" in Indonesian) is a free Secret Santa /
-gift-exchange generator — no signup, no email, no account. **Live at
+gift-exchange generator. No signup, no email, no account. **Live at
 [bukanpawkemon.github.io/tukar-kado](https://bukanpawkemon.github.io/tukar-kado/)**
 (English available at [`/en/`](https://bukanpawkemon.github.io/tukar-kado/en/)).
 
@@ -70,12 +64,11 @@ It's fully client-side: there's no backend, and no server ever sees who's
 been paired with whom. Each pairing round gets its own random encryption
 key; every participant's assignment is packed and encrypted directly into
 their unique link, using the URL fragment (the part after `#`) specifically
-because browsers never transmit that part to a server — including when
-WhatsApp or Telegram fetch a link preview. See [`CLAUDE.md`](CLAUDE.md) for
-the full technical write-up.
+because browsers never transmit that part to a server, including when
+WhatsApp or Telegram fetch a link preview.
 
 Add participants manually, via a compact text format, or by importing a
-CSV/Xlsx file with automatic column detection. Set pairing rules — force or
+CSV/Xlsx file with automatic column detection. Set pairing rules: force or
 prevent specific pairings, or tag participants into groups (a family, a
 couple) that should never draw each other. Share links over WhatsApp, QR
 code, or printed slips. The reveal page is two-stage on purpose: a
@@ -90,7 +83,7 @@ yarn && yarn dev
 
 Tukar Kado adalah pengembangan ulang dari
 **[Secret Santa](https://github.com/arcanis/secretsanta) oleh Maël Nison**
-(2015) — Fork ini menulis ulang hampir semua bagian (kripto, algoritma
+(2015). Fork ini menulis ulang hampir semua bagian (kripto, algoritma
 matching, i18n, dll), tapi ide dasarnya dari proyek beliau. Terima kasih!
 
 Ilustrasi hewan pesta (`static/party.webp`) diproses dengan bantuan Magnific AI.

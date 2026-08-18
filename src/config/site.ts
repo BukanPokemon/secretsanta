@@ -1,8 +1,7 @@
-// Single source for site-wide, non-secret configuration — the goal is that
+// Single source for site-wide, non-secret configuration. The goal is that
 // changing a domain, a social link, or a budget preset means editing this
-// file, not hunting through components. See CLAUDE.md's "Content
-// management" section for what still lives elsewhere and why (guide/FAQ
-// copy is markdown under src/content/, not here).
+// file, not hunting through components (guide/FAQ copy is markdown under
+// src/content/ instead, since that's edited far more often).
 //
 // scripts/prerender.mjs (a plain Node script, not compiled) can't import
 // this file directly, so SITE_URL is duplicated there and in

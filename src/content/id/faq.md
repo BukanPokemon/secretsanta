@@ -4,11 +4,11 @@ Tidak. Tidak ada pendaftaran, tidak ada login, tidak ada akun sama sekali. Tingg
 
 ## Apakah email peserta dikumpulkan?
 
-Tidak ada email yang dikumpulkan atau dibutuhkan sama sekali. Link dibagikan langsung oleh kamu, lewat cara apa pun yang kamu mau — WhatsApp, chat, atau langsung ke orangnya.
+Tidak ada email yang dikumpulkan atau dibutuhkan sama sekali. Link dibagikan langsung oleh kamu, lewat cara apa pun yang kamu mau: WhatsApp, chat, atau langsung ke orangnya.
 
 ## Daftar peserta disimpan di mana?
 
-Hanya di browser kamu sendiri, di perangkat kamu sendiri. Tidak pernah dikirim ke server — memang tidak ada servernya. Kalau data browser terhapus, gunakan fitur Ekspor Acara terlebih dahulu untuk menyimpan cadangan.
+Hanya di browser kamu sendiri, di perangkat kamu sendiri. Tidak pernah dikirim ke server: memang tidak ada servernya. Kalau data browser terhapus, gunakan fitur Ekspor Acara terlebih dahulu untuk menyimpan cadangan.
 
 ## Bisakah orang lain tahu saya kebagian memberi hadiah ke siapa?
 

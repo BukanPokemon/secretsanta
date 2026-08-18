@@ -88,7 +88,7 @@ Tukar Kado adalah pengembangan ulang dari
 (2015). Fork ini menulis ulang hampir semua bagian (kripto, algoritma
 matching, i18n, dll), tapi ide dasarnya tetap dari proyek beliau. Makasih!
 
-Ilustrasi hewan pesta (`static/party.webp`) diproses dengan bantuan Magnific AI.
+Ilustrasi hewan pesta (`static/party.webp`) diproses dengan bantuan Magnific.
 
 Dilisensikan MIT, mengikuti lisensi asli:
 

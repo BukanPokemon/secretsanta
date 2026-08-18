@@ -13,6 +13,7 @@ export const SITE_URL = "https://bukanpawkemon.github.io/tukar-kado";
 export const REPO_URL = "https://github.com/BukanPawkemon/tukar-kado";
 export const ISSUES_URL = `${REPO_URL}/issues`;
 export const UPSTREAM_REPO_URL = "https://github.com/arcanis/secretsanta";
+export const SUPPORT_URL = "https://trakteer.id/BukanPawkemon";
 
 export interface BudgetPreset {
   min: number;

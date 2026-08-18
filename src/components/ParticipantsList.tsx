@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { ArrowsClockwise, FileCsv, FileXls, Sparkle, UploadSimple } from "@phosphor-icons/react"
+import { ArrowsClockwise, FileXls, Sparkle, Trash, UploadSimple } from "@phosphor-icons/react"
 import { Participant } from '../types'
 import { useTranslation } from 'react-i18next'
 import { ParticipantRow } from './ParticipantRow'
 import { ImportWizard } from './ImportWizard'
 import { produce } from 'immer'
-import csvTemplateUrl from '../../static/tukar-kado-template.csv?url'
 import xlsxTemplateUrl from '../../static/tukar-kado-template.xlsx?url'
 
 interface ParticipantsListProps {
@@ -14,6 +13,8 @@ interface ParticipantsListProps {
   onOpenRules: (participantName: string) => void
   onGeneratePairs: () => void
   onTryExample: () => void
+  hasGeneratedPairs: boolean
+  onParticipantRemoved: () => void
 }
 
 export function ParticipantsList({
@@ -22,6 +23,8 @@ export function ParticipantsList({
   onOpenRules,
   onGeneratePairs,
   onTryExample,
+  hasGeneratedPairs,
+  onParticipantRemoved,
 }: ParticipantsListProps) {
   const { t } = useTranslation()
   const [nextParticipantId, setNextParticipantId] = useState(() => crypto.randomUUID())
@@ -38,7 +41,12 @@ export function ParticipantsList({
     }))
   }
 
-  const removeParticipant = (id: string) => {
+  const removeParticipant = (id: string, name: string) => {
+    const confirmMessage = hasGeneratedPairs
+      ? t('participants.removeConfirmWithLinks', { name })
+      : t('participants.removeConfirm', { name })
+    if (!confirm(confirmMessage)) return
+
     onChangeParticipants(produce(participants, draft => {
       delete draft[id]
 
@@ -48,6 +56,15 @@ export function ParticipantsList({
         )
       }
     }))
+
+    if (hasGeneratedPairs) onParticipantRemoved()
+  }
+
+  const handleClearAll = () => {
+    if (confirm(t('participants.clearAllConfirm'))) {
+      onChangeParticipants({})
+      if (hasGeneratedPairs) onParticipantRemoved()
+    }
   }
 
   const handleFileSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,20 +87,29 @@ export function ParticipantsList({
   return (
     <div className="space-y-4">
 
-      {isEmpty && (
+      {isEmpty ? (
         <button
           type="button"
           onClick={onTryExample}
-          className="w-full p-3 bg-yellow-50 text-yellow-800 font-medium rounded-lg hover:bg-yellow-100 flex items-center justify-center gap-2 border-2 border-dashed border-yellow-400"
+          className="w-full px-3 py-2 text-sm bg-yellow-50 text-yellow-800 font-medium rounded-lg hover:bg-yellow-100 flex items-center justify-center gap-2 border border-dashed border-yellow-400"
         >
-          <Sparkle size={20} weight="bold" />
+          <Sparkle size={16} weight="bold" />
           {t('participants.tryExample')}
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={handleClearAll}
+          className="w-full px-3 py-2 text-sm text-red-600 hover:text-red-800 hover:bg-red-50 rounded-lg flex items-center justify-center gap-2"
+        >
+          <Trash size={16} weight="bold" />
+          {t('participants.clearAll')}
         </button>
       )}
 
       {/* Spreadsheet import */}
-      <div className="flex flex-wrap items-center gap-2">
-        <label className="flex items-center gap-2 px-3 py-2 bg-indigo-600 text-white rounded cursor-pointer hover:bg-indigo-700">
+      <div className="space-y-2">
+        <label className="flex items-center justify-center gap-2 w-full px-3 py-2 bg-indigo-600 text-white rounded cursor-pointer hover:bg-indigo-700">
           <UploadSimple size={20} />
           {t('participants.uploadSpreadsheet')}
           <input
@@ -95,17 +121,9 @@ export function ParticipantsList({
         </label>
 
         <a
-          href={csvTemplateUrl}
-          download="tukar-kado-template.csv"
-          className="flex items-center gap-1.5 px-2 py-2 text-xs text-gray-600 hover:text-gray-900 hover:underline"
-        >
-          <FileCsv size={16} />
-          {t('participants.downloadCsvTemplate')}
-        </a>
-        <a
           href={xlsxTemplateUrl}
           download="tukar-kado-template.xlsx"
-          className="flex items-center gap-1.5 px-2 py-2 text-xs text-gray-600 hover:text-gray-900 hover:underline"
+          className="flex items-center justify-center gap-1.5 px-2 py-1.5 text-xs text-gray-600 hover:text-gray-900 hover:underline"
         >
           <FileXls size={16} />
           {t('participants.downloadXlsxTemplate')}
@@ -136,7 +154,7 @@ export function ParticipantsList({
             isLast={index === Object.keys(participants).length}
             onNameChange={(name) => updateParticipant(participant.id, name)}
             onOpenRules={() => onOpenRules(participant.id)}
-            onRemove={() => removeParticipant(participant.id)}
+            onRemove={() => removeParticipant(participant.id, participant.name)}
           />
         ))}
       </div>

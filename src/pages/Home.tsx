@@ -19,11 +19,11 @@ import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { useWebAnalytics } from '../hooks/useWebAnalytics';
 import { downloadEventBackup, parseEventBackup } from '../utils/eventBackup';
 import { buildExampleParticipants } from '../utils/exampleParticipants';
-import { REPO_URL, ISSUES_URL } from '../config/site';
+import { REPO_URL, ISSUES_URL, SUPPORT_URL } from '../config/site';
 
 export function Home() {
   const { t, i18n } = useTranslation();
-  const [isTextView, setIsTextView] = useState(false);
+  const [isTextView, setIsTextView] = useState(true);
 
   useWebAnalytics();
 
@@ -123,17 +123,69 @@ export function Home() {
     reader.readAsText(file);
   };
 
-  const toggleViewButton = (
-    <button
-      onClick={(e) => {
-        e.stopPropagation();
-        setIsTextView(!isTextView);
-      }}
-      className="p-2 text-gray-200 hover:bg-gray-700 rounded-full"
-      title={t(isTextView ? 'participants.switchToFormView' : 'participants.switchToTextView')}
-    >
-      {isTextView ? <Rows size={20} weight="bold" /> : <Code size={20} weight="bold" />}
-    </button>
+  const viewModeTabs = (
+    <div className="mb-3">
+      <div role="tablist" className="flex w-full bg-gray-100 rounded-full p-1 gap-1">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={!isTextView}
+          onClick={() => setIsTextView(false)}
+          className={`flex-1 px-3 py-1.5 rounded-full text-sm font-medium flex items-center justify-center gap-1.5 transition-colors ${
+            !isTextView ? 'bg-green-700 text-white' : 'text-gray-600 hover:text-gray-800'
+          }`}
+        >
+          <Rows size={16} weight="bold" />
+          {t('participants.formView')}
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={isTextView}
+          onClick={() => setIsTextView(true)}
+          className={`flex-1 px-3 py-1.5 rounded-full text-sm font-medium flex items-center justify-center gap-1.5 transition-colors ${
+            isTextView ? 'bg-green-700 text-white' : 'text-gray-600 hover:text-gray-800'
+          }`}
+        >
+          <Code size={16} weight="bold" />
+          {t('participants.textView')}
+        </button>
+      </div>
+      <p className="mt-1.5 text-xs text-gray-500">
+        {t(isTextView ? 'participants.textViewHelp' : 'participants.formViewHelp')}
+      </p>
+    </div>
+  );
+
+  // Bottom center credits — static, not fixed: a fixed footer on a tall
+  // mobile page ends up floating over whatever content is scrolled
+  // underneath it and intercepting taps meant for that content. Source/
+  // issues link the actual fork (trust signal: the code you're running is
+  // checkable); the upstream credit below is a separate, distinct link to
+  // the original project it's based on. Rendered via Layout's `footer` slot
+  // (not as a sibling of <Layout>) so it's part of the centered block
+  // instead of always adding its own height below a full 100vh floor.
+  const footer = (
+    <div className="text-center text-gray-400 text-sm py-4 space-y-1">
+      <div className="space-x-3">
+        <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">
+          {t('home.viewSource')}
+        </a>
+        <span aria-hidden="true">·</span>
+        <a href={`${REPO_URL}/blob/main/CHANGELOG.md`} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">
+          {t('home.changelog')}
+        </a>
+        <span aria-hidden="true">·</span>
+        <a href={ISSUES_URL} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">
+          {t('home.reportIssue')}
+        </a>
+        <span aria-hidden="true">·</span>
+        <a href={SUPPORT_URL} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">
+          {t('home.sponsor')}
+        </a>
+      </div>
+      <div dangerouslySetInnerHTML={{ __html: t('home.vanity') }} />
+    </div>
   );
 
   return (
@@ -141,7 +193,7 @@ export function Home() {
       <PageTransition>
         <JsonLd data={softwareAppJsonLd} />
         {/* Layout with empty top menu */}
-        <Layout menuItems={[]}>
+        <Layout menuItems={[]} footer={footer}>
           {/* Main content */}
           <div className="lg:flex-[6_6_0%]">
             <PostCard>
@@ -165,8 +217,9 @@ export function Home() {
                 title={t('participants.title')}
                 isOpen={openSection === 'participants'}
                 onToggle={() => setOpenSection('participants')}
-                action={toggleViewButton}
+                scrollResetKey={isTextView}
               >
+                {viewModeTabs}
                 {isTextView ? (
                   <ParticipantsTextView
                     participants={participants}
@@ -183,6 +236,8 @@ export function Home() {
                     }}
                     onGeneratePairs={handleGeneratePairs}
                     onTryExample={handleTryExample}
+                    hasGeneratedPairs={!!assignments}
+                    onParticipantRemoved={() => setAssignments(null)}
                   />
                 )}
               </Accordion>
@@ -220,29 +275,6 @@ export function Home() {
             </AccordionContainer>
           </div>
         </Layout>
-
-        {/* Bottom center credits — static, not fixed: a fixed footer on a
-            tall mobile page ends up floating over whatever content is
-            scrolled underneath it and intercepting taps meant for that
-            content. Source/issues link the actual fork (trust signal: the
-            code you're running is checkable); the upstream credit below is
-            a separate, distinct link to the original project it's based on. */}
-        <div className="text-center text-gray-400 text-sm py-4 space-y-1">
-          <div className="space-x-3">
-            <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">
-              {t('home.viewSource')}
-            </a>
-            <span aria-hidden="true">·</span>
-            <a href={`${REPO_URL}/blob/main/CHANGELOG.md`} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">
-              {t('home.changelog')}
-            </a>
-            <span aria-hidden="true">·</span>
-            <a href={ISSUES_URL} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">
-              {t('home.reportIssue')}
-            </a>
-          </div>
-          <div dangerouslySetInnerHTML={{ __html: t('home.vanity') }} />
-        </div>
       </PageTransition>
 
       {isRulesModalOpen && selectedParticipantId && (

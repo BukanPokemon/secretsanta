@@ -42,6 +42,14 @@ body {
   flex: 0 1 0%;
 }
 
+code {
+  background: #f3f4f6;
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
 .postcard > div {
   @apply bg-white;
 }
@@ -52,5 +60,23 @@ body {
   }
   100% {
     background-position: 130px 640px, 0 300px, 0 0
+  }
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-10vh);
+  }
+  100% {
+    transform: translateY(110vh);
+  }
+}
+
+@keyframes confetti-spin {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: calc(var(--confetti-spin, 1) * 360deg);
   }
 }
